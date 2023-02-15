@@ -1,0 +1,50 @@
+{
+  "name": "{{pwaId}}",
+  "version": "1.0.0",
+  "description": "A fully working simple PWA",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node build.js -w -o",
+    "build": "node build.js"
+  },
+  "keywords": [
+    "es6",
+    "pwa"
+  ],
+  "author": "",
+  "license": "MIT",
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2020": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:lit/recommended"
+    ],
+    "overrides": [],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "plugins": ["@typescript-eslint", "lit"],
+    "rules": {
+      "lit/no-legacy-template-syntax": "error",
+      "lit/no-template-arrow": "warn"
+    }
+  },
+  "dependencies": {
+    "lit": "2.6.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "@typescript-eslint/parser": "^5.51.0",
+    "esbuild": "^0.17.6",
+    "eslint": "^8.33.0",
+    "eslint-plugin-lit": "^1.8.2",
+    "typescript": "^4.9.5"
+  }
+}

@@ -1,0 +1,23 @@
+{
+    "short_name": "{{pwaId}}",
+    "name": "{{LITPWA}}",
+    "icons": [
+      {
+        "src": "/images/manifest/pwa-icon.svg",
+        "type": "image/svg+xml",
+        "sizes": "300x113"
+      },
+      {
+        "src": "/images/manifest/pwa-icon.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "any maskable"
+      }
+    ],
+    "id": "/?source={{pwaId}}",
+    "start_url": "/?source={{pwaId}}",
+    "background_color": "#3367D6",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#3367D6"
+  }
