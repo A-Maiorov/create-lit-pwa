@@ -3,7 +3,7 @@ import { css, html, LitElement } from "lit";
 export class Name extends LitElement {
   static styles = css`
     span {
-      color: purple;
+      color: var(--theme-color, purple);
       text-decoration: wavy;
     }
   `;

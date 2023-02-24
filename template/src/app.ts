@@ -2,6 +2,10 @@ import { css, html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
 import "./nameEditor";
 import "./name";
+
+/**
+ * Main application
+ */
 class App extends LitElement {
   static styles = css`
     p {
@@ -9,6 +13,7 @@ class App extends LitElement {
     }
   `;
 
+  // define 'name' property
   @property({ type: String })
   name: string;
 
@@ -19,11 +24,11 @@ class App extends LitElement {
 
   render() {
     return html`
-      <p>Hello, <{{pwa}}-name data-name=${this.name}></{{pwa}}-name></p>
-      <{{pwa}}-name-editor
+      <p>Hello, <df-name data-name=${this.name}></df-name></p>
+      <df-name-editor
         data-placeholder="Somebody"
         @nameChanged=${this.handleNameChange}
-      ></{{pwa}}-name-editor>
+      ></df-name-editor>
     `;
   }
 
@@ -32,4 +37,5 @@ class App extends LitElement {
   }
 }
 
-customElements.define("{{pwa}}-app", App);
+// define custom element
+customElements.define("df-app", App);

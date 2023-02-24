@@ -3,7 +3,7 @@ import { eventOptions, property } from "lit/decorators.js";
 
 export class NameEditor extends LitElement {
   @property({ type: String, attribute: "data-placeholder" })
-  placeholder: string;
+  placeholder: string | undefined;
 
   render() {
     return html`
@@ -11,7 +11,7 @@ export class NameEditor extends LitElement {
       <input
         id="name"
         type="text"
-        placeholder=${this.placeholder}
+        placeholder=${this.placeholder ?? ""}
         @change=${this.handleChange}
       />
     `;

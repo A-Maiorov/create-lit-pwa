@@ -1,29 +1,70 @@
-# Lit PWA
+# Introduction
 
-Simple template for PWA made with Lit
+This is a simple template for a PWA that uses only native Web Components, with only Google's Lit library to make working with Web Components easier.
 
-- Installable
+- PWA Installable on desktop, tablet and mobile
 - Works offline
-- Passes all Lighthouse tests
+- Passes all [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview/ "Lighthouse overview - Chrome Developers") tests
 - TS and JS can be used simultaneously
 
-Learn Lit: https://lit.dev/
+# Why Lit?
 
-Lit for react developers: https://codelabs.developers.google.com/codelabs/lit-2-for-react-devs#0
+Lit handles smart reactive rendering in a way similar to React, but without the overhead of a Virtual DOM.
 
-### Tools
+It uses native ES String Literals and variables. Hence the name 'lit'.
 
-- `esbuild` for TS compilation, bundling and development web server
-- `typescript` and `eslint` for static analysis
+```typescript
+import {html, css, LitElement} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
 
-### VS Code 
+@customElement('simple-greeting')
+export class SimpleGreeting extends LitElement {
+  static styles = css`p { color: blue }`;
 
-It is highly recommended to install following extensions: 
-- `esbenp.prettier-vscode`
-- `runem.lit-plugin`
-- `dbaeumer.vscode-eslint`
+  @property()
+  name = 'Somebody';
 
-### NPM scripts
+  render() {
+    return html`<p>Hello, ${this.name}!</p>`;
+  }
+}
+```
 
-- `npm start` to start development server
-- `npm run build` to build for production
+The library adds just 5KB to your bundle.&#x20;
+
+💡 Learn Lit:
+
+- <https://lit.dev/>&#x20;
+- [Lit for react developers](https://codelabs.developers.google.com/codelabs/lit-2-for-react-devs "Lit for React Developers | Google Codelabs")
+
+# Dev Tools
+
+- Uses **TypeScript** and **ESLint** for static analysis
+- Uses **ESBuild** for:
+  - TypeScript compilation
+  - Bundling
+  - Development web server
+
+# VS Code Extensions
+
+It is highly recommended to install following extensions:
+
+- esbenp.prettier-vscode
+- runem.lit-plugin
+- dbaeumer.vscode-eslint
+
+# NPM scripts
+
+### Start development server:
+
+```
+npm start
+```
+
+### Build for production:
+
+```
+npm build
+```
+
+<br>

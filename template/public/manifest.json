@@ -3,21 +3,22 @@
     "name": "{{LITPWA}}",
     "icons": [
       {
-        "src": "/images/manifest/pwa-icon.svg",
-        "type": "image/svg+xml",
-        "sizes": "300x113"
-      },
-      {
-        "src": "/images/manifest/pwa-icon.png",
+        "src": "/images/manifest/lit-pwa.png",
         "type": "image/png",
         "sizes": "512x512",
-        "purpose": "any maskable"
+        "purpose": "any"
+      },
+      {
+        "src": "/images/manifest/lit-pwa-maskable.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "maskable"
       }
     ],
     "id": "/?source={{pwaId}}",
     "start_url": "/?source={{pwaId}}",
-    "background_color": "#3367D6",
+    "background_color": "#FFFFFF",
     "display": "standalone",
     "scope": "/",
-    "theme_color": "#3367D6"
+    "theme_color": "#FFFFFF"
   }
