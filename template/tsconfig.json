@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": true,
     "outDir": "../public/scripts",
     "moduleResolution": "node",
     "module": "ES2020",
@@ -8,6 +9,6 @@
     "checkJs": true,
     "noEmit": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "service-worker", "public"],
   "include": ["./src/**/*"]
 }

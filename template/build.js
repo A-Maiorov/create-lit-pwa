@@ -1,5 +1,4 @@
 //@ts-check
-
 import { context, build } from "esbuild";
 import { exec } from "child_process";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -13,23 +12,66 @@ const open = args.includes("-o");
 /**
  * @type import("esbuild").BuildOptions
  */
-const options = {
-  entryPoints: ["src/app.ts"],
+const commonOptions = {
   bundle: true,
-  minify: true,
-  minifyWhitespace: true,
-  minifySyntax: true,
-  sourcemap: true,
-  outfile: `public/scripts/app.js`,
+  minify: !watch,
+  minifyWhitespace: !watch,
+  minifySyntax: !watch,
+  sourcemap: watch,
   target: "es2020",
   platform: "browser",
   format: "esm",
+  external: ["public/*"],
+};
+
+/**
+ * @type import("esbuild").BuildOptions
+ */
+const appOptions = {
+  ...commonOptions,
+  logLevel: "info",
+  entryPoints: ["src/app.ts"],
+  outfile: `public/scripts/app.js`,
   plugins: [
     {
-      name: "build-logger",
+      name: "pwa-sw-builder",
+      setup(currentBuild) {
+        currentBuild.onEnd((result) => {
+          if (result.errors.length === 0) {
+            build(swOptions);
+          }
+        });
+      },
+    },
+  ],
+};
+
+/**
+ * @type import("esbuild").BuildOptions
+ */
+const swOptions = {
+  ...commonOptions,
+  tsconfig: "src/service-worker/tsconfig.json",
+  entryPoints: ["src/service-worker/service-worker.ts"],
+  outfile: `public/service-worker.js`,
+  plugins: [
+    {
+      name: "env",
       setup(build) {
+        const timestamp = new Date().getTime();
+        // https://esbuild.github.io/plugins/#using-plugins
+        build.onResolve({ filter: /^build$/ }, (args) => ({
+          path: args.path,
+          namespace: "build-ns",
+        }));
+        build.onLoad({ filter: /.*/, namespace: "build-ns" }, () => ({
+          contents: JSON.stringify({ timestamp }),
+          loader: "json",
+        }));
         build.onEnd((result) => {
-          if (result.errors.length === 0) console.log("Success");
+          if (result.errors.length === 0) {
+            console.log("SW generated, timestamp: " + timestamp);
+          }
         });
       },
     },
@@ -37,22 +79,25 @@ const options = {
 };
 
 if (!watch) {
-  await build(options);
+  await build(appOptions);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   // eslint-disable-next-line no-undef
   process.exit();
 }
 
-let ctx = await context(options);
+let buildCtx = await context(appOptions);
 
-await ctx.watch();
+await buildCtx.watch();
 
-let { host, port } = await ctx.serve({
+// Create separate context to avoid rebuilding SW on each page refresh
+// SW should be rebuilt only when source code is changed
+//https://esbuild.github.io/api/#serve:~:text=But%20that%20means%20reloading%20after%20an%20edit%20may%20reload%20the%20old%20output%20files%20if%20the%20rebuild%20hasn%27t%20finished%20yet.
+let serveCtx = await context({ ...appOptions, plugins: [] });
+let { host, port } = await serveCtx.serve({
   servedir: "public",
   host: "localhost",
 });
-console.log(`Listen on ${host}:${port}`);
 
 if (open) {
   var start =

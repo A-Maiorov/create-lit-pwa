@@ -4,8 +4,10 @@ import { spawn } from "child_process";
 import { platform } from "os";
 import * as url from "url";
 import { createInterface } from "readline";
+import { readFileSync } from "fs";
 
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
+const pack = JSON.parse(readFileSync(__dirname + "package.json"));
 const readline = createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -14,7 +16,7 @@ const readline = createInterface({
 console.log(
   "\x1b[35m",
   `
-Create Lit PWA
+Create Lit PWA \x1b[90m${pack.version}
 `
 );
 
