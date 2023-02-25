@@ -59,6 +59,8 @@ class App extends LitElement {
   renderPage() {
     switch (location.pathname) {
       case "/page-one":
+      case "/":
+      case "":
         return html`<{{pwa}}-page-one></{{pwa}}-page-one>`;
       case "/page-two":
         return new PageTwo();
