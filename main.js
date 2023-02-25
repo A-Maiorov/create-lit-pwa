@@ -5,13 +5,16 @@ import { platform } from "os";
 import * as url from "url";
 import { createInterface } from "readline";
 import { readFileSync } from "fs";
-
+import { readdir } from "fs/promises";
+import path from "path";
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 const pack = JSON.parse(readFileSync(__dirname + "package.json"));
 const readline = createInterface({
   input: process.stdin,
   output: process.stdout,
 });
+
+const cwd = process.cwd();
 
 console.log(
   "\x1b[35m",
@@ -48,8 +51,6 @@ const readLineAsync = (msg, validationRegex, defaultResponse) => {
   });
 };
 
-const appTitleQ =
-  "\x1b[36m" + "?: " + "\x1b[90m" + "Enter pwa title: " + "\x1b[32m";
 const customElementPrefixQ =
   "\x1b[36m" +
   "?: " +
@@ -57,11 +58,20 @@ const customElementPrefixQ =
   "Enter custom element prefix (default: pwa): " +
   "\x1b[32m";
 
-const pwaIdDefault = url
-  .parse(process.cwd())
-  .pathname.split("/")
-  .pop()
-  .toLocaleLowerCase();
+const pwaTitleDefault = url.parse(cwd).pathname.split("/").pop();
+const appTitleQ =
+  "\x1b[36m" +
+  "?: " +
+  "\x1b[90m" +
+  `Enter pwa title (default: ${pwaTitleDefault}): ` +
+  "\x1b[32m";
+const toKebabCase = (str) =>
+  str &&
+  str
+    .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+    .map((x) => x.toLowerCase())
+    .join("-");
+const pwaIdDefault = toKebabCase(pwaTitleDefault);
 
 const appIdQ =
   "\x1b[36m" +
@@ -79,9 +89,21 @@ const confirmQ =
   "Lit PWA template will be installed in current directory (default: yes)" +
   "\x1b[32m";
 
+const clearDirMsg =
+  "\x1b[36m" +
+  "?: " +
+  "\x1b[90m" +
+  "Current directory is not empty, please clear it and try again";
+
 const confirm = await readLineAsync(confirmQ, undefined, "yes");
 if (confirm !== "yes") {
   console.log("\x1b[0m" + "Cancelling installation ...");
+  process.exit();
+}
+
+const dir = await readdir(cwd);
+if (dir.length > 0) {
+  console.log(clearDirMsg);
   process.exit();
 }
 
@@ -92,9 +114,9 @@ while (pwaId === undefined) {
 }
 
 const pwaTitleRegex = /.+/;
-let pwaTitle = await readLineAsync(appTitleQ, pwaTitleRegex);
+let pwaTitle = await readLineAsync(appTitleQ, pwaTitleRegex, pwaTitleDefault);
 while (pwaTitle === undefined) {
-  pwaTitle = await readLineAsync(appTitleQ, pwaTitleRegex);
+  pwaTitle = await readLineAsync(appTitleQ, pwaTitleRegex, pwaTitleDefault);
 }
 
 const customElementPrefixRegex = /^[a-z]{0,10}$/;

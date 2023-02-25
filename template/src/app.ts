@@ -1,13 +1,27 @@
 import { css, html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
-import "./nameEditor";
-import "./name";
+import { PageTwo } from "./components/pageTwo";
+import { LocationController } from "./locationController";
+import "./components/nameEditor";
+import "./components/name";
+import "./components/pageOne";
 
 /**
  * Main application
  */
 class App extends LitElement {
   static styles = css`
+    :host {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    section,
+    main {
+      margin: 15px 0;
+    }
+
     p {
       color: blue;
     }
@@ -16,20 +30,47 @@ class App extends LitElement {
   // define 'name' property
   @property({ type: String })
   name: string;
+  locationController: LocationController;
 
   constructor() {
     super();
     this.name = "Somebody";
+    this.locationController = new LocationController(this);
   }
 
   render() {
     return html`
-      <p>Hello, <df-name data-name=${this.name}></df-name></p>
-      <df-name-editor
-        data-placeholder="Somebody"
-        @nameChanged=${this.handleNameChange}
-      ></df-name-editor>
+      <img width="35%" alt="Lit PWA" src="/images/manifest/lit-pwa.png" />
+      <section>
+        <p>Hello, <{{pwa}}-name data-name=${this.name}></{{pwa}}-name></p>
+        <{{pwa}}-name-editor
+          data-placeholder="Somebody"
+          @nameChanged=${this.handleNameChange}
+        ></{{pwa}}-name-editor>
+      </section>
+      <section>
+        <button @click=${this.goToPage1}>Page 1</button>
+        <button @click=${this.goToPage2}>Page 2</button>
+        <main>${this.renderPage()}</main>
+      </section>
     `;
+  }
+
+  renderPage() {
+    switch (location.pathname) {
+      case "/page-one":
+        return html`<{{pwa}}-page-one></{{pwa}}-page-one>`;
+      case "/page-two":
+        return new PageTwo();
+      default:
+        return html`Ooops, page not found!`;
+    }
+  }
+  goToPage1() {
+    this.locationController.goTo("/page-one");
+  }
+  goToPage2() {
+    this.locationController.goTo("/page-two");
   }
 
   handleNameChange(e: CustomEvent<{ name: string }>) {
@@ -38,4 +79,4 @@ class App extends LitElement {
 }
 
 // define custom element
-customElements.define("df-app", App);
+customElements.define("{{pwa}}-app", App);

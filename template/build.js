@@ -1,10 +1,11 @@
 //@ts-check
 import { context, build } from "esbuild";
 import { exec } from "child_process";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+
 // eslint-disable-next-line no-undef
-var args = process.argv.slice(2);
+const proc = process;
+
+var args = proc.argv.slice(2);
 
 const watch = args.includes("-w");
 const open = args.includes("-o");
@@ -18,10 +19,9 @@ const commonOptions = {
   minifyWhitespace: !watch,
   minifySyntax: !watch,
   sourcemap: watch,
-  target: "es2020",
+  target: ["es2020", "chrome89", "firefox90", "safari14"],
   platform: "browser",
   format: "esm",
-  external: ["public/*"],
 };
 
 /**
@@ -52,7 +52,7 @@ const appOptions = {
 const swOptions = {
   ...commonOptions,
   tsconfig: "src/service-worker/tsconfig.json",
-  entryPoints: ["src/service-worker/service-worker.ts"],
+  entryPoints: ["src/service-worker/serviceWorker.ts"],
   outfile: `public/service-worker.js`,
   plugins: [
     {
@@ -80,10 +80,7 @@ const swOptions = {
 
 if (!watch) {
   await build(appOptions);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  // eslint-disable-next-line no-undef
-  process.exit();
+  proc.exit();
 }
 
 let buildCtx = await context(appOptions);
@@ -100,10 +97,10 @@ let { host, port } = await serveCtx.serve({
 });
 
 if (open) {
-  var start =
-    process.platform == "darwin"
+  const start =
+    proc.platform == "darwin"
       ? "open"
-      : process.platform == "win32"
+      : proc.platform == "win32"
       ? "start"
       : "xdg-open";
   exec(start + " " + `http://${host}:${port}`);

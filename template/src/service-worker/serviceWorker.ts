@@ -7,8 +7,6 @@ import { PRECACHE_URLS } from "./precacheUrls";
 const PRECACHE = "precache-" + timestamp;
 const RUNTIME = "runtime-" + timestamp;
 
-// A list of local resources we always want to be cached.
-
 // The install handler takes care of precaching the resources we always need.
 self.addEventListener("install", (event) => {
   event.waitUntil(
