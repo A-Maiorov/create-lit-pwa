@@ -57,18 +57,41 @@ It is highly recommended to install following extensions:
 - runem.lit-plugin
 - dbaeumer.vscode-eslint
 
+# Service worker
+Lit PWA uses service worker to implement following features: 
+
+- Installablility
+- Work offline
+- Runtime caching
+- Serve index.html in case if server is not available or does not implement "spa behavior"
+
+For day-to-day development Lit PWA uses Dev worker. It is "transparent" worker that does not have any caching. Using this worker helps achive better dev experience. 
+
 # NPM scripts
 
 ### Start development server:
+
+- Live reloading
+- Dev service worker
+- Good choice for common development
 
 ```
 npm start
 ```
 
+### Start development server:
+
+- Rebuild on change
+- No Live reloading
+- Fully functional service worker
+- Good choice for developing offline features, testing caching, running Lighthouse tests
+
+```
+npm run serve
+```
+
 ### Build for production:
 
 ```
-npm build
+npm run build
 ```
-
-<br>

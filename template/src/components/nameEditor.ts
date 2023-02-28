@@ -28,4 +28,4 @@ export class NameEditor extends LitElement {
   }
 }
 
-customElements.define("{{pwa}}-name-editor", NameEditor);
+customElements.define("litpwaelementprefixplaceholder-name-editor", NameEditor);

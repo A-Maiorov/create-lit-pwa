@@ -1,6 +1,6 @@
 {
-    "short_name": "{{pwaId}}",
-    "name": "{{LITPWA}}",
+    "short_name": "litpwapackagenameplaceholder",
+    "name": "litpwatitleplaceholder",
     "icons": [
       {
         "src": "/images/manifest/lit-pwa.png",
@@ -15,8 +15,8 @@
         "purpose": "maskable"
       }
     ],
-    "id": "/?source={{pwaId}}",
-    "start_url": "/?source={{pwaId}}",
+    "id": "/?source=litpwapackagenameplaceholder",
+    "start_url": "/?source=litpwapackagenameplaceholder",
     "background_color": "#FFFFFF",
     "display": "standalone",
     "scope": "/",

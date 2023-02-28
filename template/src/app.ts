@@ -42,11 +42,16 @@ class App extends LitElement {
     return html`
       <img width="35%" alt="Lit PWA" src="/images/manifest/lit-pwa.png" />
       <section>
-        <p>Hello, <{{pwa}}-name data-name=${this.name}></{{pwa}}-name></p>
-        <{{pwa}}-name-editor
+        <p>
+          Hello,
+          <litpwaelementprefixplaceholder-name
+            data-name=${this.name}
+          ></litpwaelementprefixplaceholder-name>
+        </p>
+        <litpwaelementprefixplaceholder-name-editor
           data-placeholder="Somebody"
           @nameChanged=${this.handleNameChange}
-        ></{{pwa}}-name-editor>
+        ></litpwaelementprefixplaceholder-name-editor>
       </section>
       <section>
         <button @click=${this.goToPage1}>Page 1</button>
@@ -61,7 +66,7 @@ class App extends LitElement {
       case "/page-one":
       case "/":
       case "":
-        return html`<{{pwa}}-page-one></{{pwa}}-page-one>`;
+        return html`<litpwaelementprefixplaceholder-page-one></litpwaelementprefixplaceholder-page-one>`;
       case "/page-two":
         return new PageTwo();
       default:
@@ -81,4 +86,4 @@ class App extends LitElement {
 }
 
 // define custom element
-customElements.define("{{pwa}}-app", App);
+customElements.define("litpwaelementprefixplaceholder-app", App);

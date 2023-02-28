@@ -6,4 +6,4 @@ export class PageTwo extends LitElement {
   }
 }
 
-customElements.define("{{pwa}}-page-two", PageTwo);
+customElements.define("litpwaelementprefixplaceholder-page-two", PageTwo);

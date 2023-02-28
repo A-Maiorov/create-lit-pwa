@@ -9,6 +9,31 @@ var args = proc.argv.slice(2);
 
 const watch = args.includes("-w");
 const open = args.includes("-o");
+const serviceWorker = args.includes("-sw");
+const hotReload = watch && !serviceWorker;
+
+if (serviceWorker && watch) {
+  console.warn("Hot reload is disabled due to service worker");
+}
+
+const regSw = () => {
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/service-worker.js");
+
+      navigator.serviceWorker.addEventListener("controllerchange", function () {
+        confirm("New version is available, press OK to refresh.");
+        window.location.reload();
+      });
+    });
+  }
+};
+
+const regHotReload = () => {
+  new EventSource("/esbuild").addEventListener("change", () => {
+    location.reload();
+  });
+};
 
 /**
  * @type import("esbuild").BuildOptions
@@ -23,7 +48,6 @@ const commonOptions = {
   platform: "browser",
   format: "esm",
 };
-
 /**
  * @type import("esbuild").BuildOptions
  */
@@ -32,51 +56,45 @@ const appOptions = {
   logLevel: "info",
   entryPoints: ["src/app.ts"],
   outfile: `public/scripts/app.js`,
-  plugins: [
-    {
-      name: "pwa-sw-builder",
-      setup(currentBuild) {
-        currentBuild.onEnd((result) => {
-          if (result.errors.length === 0) {
-            build(swOptions);
-          }
-        });
-      },
-    },
-  ],
+  banner: {
+    js: serviceWorker ? `(${regSw.toString()})();` : "", //: `(${unregSw.toString()})();`,
+  },
+  footer: { js: hotReload ? `(${regHotReload.toString()})();` : "" },
+  plugins: serviceWorker
+    ? [
+        {
+          name: "pwa-sw-builder",
+          setup(currentBuild) {
+            currentBuild.onEnd((result) => {
+              if (result.errors.length === 0) {
+                const swTimestamp = new Date().getTime();
+                build(getSwBuildOptions(swTimestamp)).then(() => {
+                  console.log("SW generated, timestamp: " + swTimestamp);
+                });
+              }
+            });
+          },
+        },
+      ]
+    : [],
 };
 
-/**
- * @type import("esbuild").BuildOptions
- */
-const swOptions = {
-  ...commonOptions,
-  tsconfig: "src/service-worker/tsconfig.json",
-  entryPoints: ["src/service-worker/serviceWorker.ts"],
-  outfile: `public/service-worker.js`,
-  plugins: [
-    {
-      name: "env",
-      setup(build) {
-        const timestamp = new Date().getTime();
-        // https://esbuild.github.io/plugins/#using-plugins
-        build.onResolve({ filter: /^build$/ }, (args) => ({
-          path: args.path,
-          namespace: "build-ns",
-        }));
-        build.onLoad({ filter: /.*/, namespace: "build-ns" }, () => ({
-          contents: JSON.stringify({ timestamp }),
-          loader: "json",
-        }));
-        build.onEnd((result) => {
-          if (result.errors.length === 0) {
-            console.log("SW generated, timestamp: " + timestamp);
-          }
-        });
-      },
-    },
-  ],
-};
+function getSwBuildOptions(timestamp) {
+  /**
+   * @type import("esbuild").BuildOptions
+   */
+  return {
+    ...commonOptions,
+    tsconfig: "src/service-worker/tsconfig.json",
+    entryPoints: [
+      serviceWorker
+        ? "src/service-worker/serviceWorker.ts"
+        : "src/service-worker/devWorker.ts",
+    ],
+    outfile: `public/service-worker.js`,
+    banner: { js: `const timestamp = ${timestamp};` },
+  };
+}
 
 if (!watch) {
   await build(appOptions);
@@ -87,14 +105,21 @@ let buildCtx = await context(appOptions);
 
 await buildCtx.watch();
 
-// Create separate context to avoid rebuilding SW on each page refresh
-// SW should be rebuilt only when source code is changed
-//https://esbuild.github.io/api/#serve:~:text=But%20that%20means%20reloading%20after%20an%20edit%20may%20reload%20the%20old%20output%20files%20if%20the%20rebuild%20hasn%27t%20finished%20yet.
-let serveCtx = await context({ ...appOptions, plugins: [] });
-let { host, port } = await serveCtx.serve({
+const serveOptions = {
   servedir: "public",
   host: "localhost",
-});
+};
+let serveResult;
+
+if (!hotReload && serviceWorker) {
+  // Create separate context to avoid rebuilding SW on each page refresh
+  // SW should be rebuilt only when source code is changed
+  let serveCtx = await context({ ...appOptions, plugins: [] });
+  serveResult = await serveCtx.serve(serveOptions);
+} else {
+  build(getSwBuildOptions()); // in this case we just need to replace existing SW with Dev SW
+  serveResult = await buildCtx.serve(serveOptions);
+}
 
 if (open) {
   const start =
@@ -103,5 +128,5 @@ if (open) {
       : proc.platform == "win32"
       ? "start"
       : "xdg-open";
-  exec(start + " " + `http://${host}:${port}`);
+  exec(start + " " + `http://${serveResult.host}:${serveResult.port}`);
 }

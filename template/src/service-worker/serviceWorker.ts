@@ -1,7 +1,6 @@
 declare let self: ServiceWorkerGlobalScope;
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
-import { timestamp } from "build";
+declare let timestamp: number;
+
 import { PRECACHE_URLS } from "./precacheUrls";
 
 const PRECACHE = "precache-" + timestamp;

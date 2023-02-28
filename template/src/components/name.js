@@ -21,4 +21,4 @@ export class Name extends LitElement {
     return html` <span>${this.name}</span> `;
   }
 }
-customElements.define("{{pwa}}-name", Name);
+customElements.define("litpwaelementprefixplaceholder-name", Name);

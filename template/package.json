@@ -1,12 +1,13 @@
 {
-  "name": "{{pwaId}}",
+  "name": "litpwapackagenameplaceholder",
   "version": "1.0.0",
   "description": "A fully working simple PWA",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node build.js -w -o",
-    "build": "node build.js"
+    "build": "node build.js -sw",
+    "serve": "node build.js -w -sw -o"
   },
   "keywords": [
     "es6",
