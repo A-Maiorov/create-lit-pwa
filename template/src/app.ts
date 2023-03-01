@@ -2,9 +2,13 @@ import { css, html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
 import { PageTwo } from "./components/pageTwo";
 import { LocationController } from "./locationController";
+import { LoadPolyfillsIfNeeded } from "./polyfills/polyfillsLoader";
 import "./components/nameEditor";
 import "./components/name";
 import "./components/pageOne";
+import "./registerSW";
+
+const polyfillsLoaded = LoadPolyfillsIfNeeded();
 
 /**
  * Main application
@@ -85,5 +89,7 @@ class App extends LitElement {
   }
 }
 
-// define custom element
-customElements.define("litpwaelementprefixplaceholder-app", App);
+polyfillsLoaded.then(() => {
+  // define custom element
+  customElements.define("litpwaelementprefixplaceholder-app", App);
+});

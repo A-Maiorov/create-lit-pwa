@@ -8,7 +8,8 @@ self.addEventListener("fetch", async (event) => {
   // Skip cross-origin requests, like those for Google Analytics.
   if (
     event.request.url.startsWith(self.location.origin) &&
-    event.request.url !== "/esbuild"
+    event.request.url !== "/esbuild" &&
+    event.request.destination === "document"
   ) {
     event.respondWith(
       fetch(event.request).then((response) => {
@@ -20,5 +21,8 @@ self.addEventListener("fetch", async (event) => {
       }) as Response | PromiseLike<Response>
     );
   }
+});
+self.addEventListener("activate", () => {
+  self.clients.claim();
 });
 export {};
