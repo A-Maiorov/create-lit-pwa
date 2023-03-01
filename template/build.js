@@ -16,19 +16,6 @@ if (serviceWorker && watch) {
   console.warn("Hot reload is disabled due to service worker");
 }
 
-const regSw = () => {
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/service-worker.js");
-
-      navigator.serviceWorker.addEventListener("controllerchange", function () {
-        confirm("New version is available, press OK to refresh.");
-        window.location.reload();
-      });
-    });
-  }
-};
-
 const regHotReload = () => {
   new EventSource("/esbuild").addEventListener("change", () => {
     location.reload();
@@ -56,9 +43,6 @@ const appOptions = {
   logLevel: "info",
   entryPoints: ["src/app.ts"],
   outfile: `public/scripts/app.js`,
-  banner: {
-    js: serviceWorker ? `(${regSw.toString()})();` : "", //: `(${unregSw.toString()})();`,
-  },
   footer: { js: hotReload ? `(${regHotReload.toString()})();` : "" },
   plugins: serviceWorker
     ? [

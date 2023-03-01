@@ -5,6 +5,7 @@ import { LocationController } from "./locationController";
 import "./components/nameEditor";
 import "./components/name";
 import "./components/pageOne";
+import "./registerSW";
 
 /**
  * Main application

@@ -1,6 +1,6 @@
 # Create Lit PWA
 
-To install, run `npm init lit-pwa@latest` 
+To install, run `npm init lit-pwa@latest`
 
 # Introduction
 
@@ -13,8 +13,7 @@ This is a simple template for a PWA that uses only native Web Components, with o
 
 # Why Lit?
 
-Lit handles smart reactive rendering in a way similar to React, but without the overhead of a Virtual DOM.
-
+Lit handles smart reactive rendering in a way similar to React, but without the overhead of a Virtual DOM.\
 It uses native ES String Literals and variables. Hence the name 'lit'.
 
 ```typescript
@@ -34,11 +33,10 @@ export class SimpleGreeting extends LitElement {
 }
 ```
 
-The library adds just 5KB to your bundle.&#x20;
-
+The library adds just 5KB to your bundle.\
 💡 Learn Lit:
 
-- <https://lit.dev/>&#x20;
+- <https://lit.dev/>
 - [Lit for react developers](https://codelabs.developers.google.com/codelabs/lit-2-for-react-devs "Lit for React Developers | Google Codelabs")
 
 # Dev Tools
@@ -58,40 +56,41 @@ It is highly recommended to install following extensions:
 - dbaeumer.vscode-eslint
 
 # Service worker
-Lit PWA uses service worker to implement following features: 
 
-- Installablility
+Lit PWA uses a service worker to implement the following features:
+
+- Installability
 - Work offline
 - Runtime caching
-- Serve index.html in case if server is not available or does not implement "spa behavior"
+- Serving index.html in case the server is not available or does not implement "spa behavior"
 
-For day-to-day development Lit PWA uses Dev worker. It is "transparent" worker that does not have any caching. Using this worker helps achive better dev experience. 
+For day-to-day development, Lit PWA uses a 'Dev' service worker, which is "transparent" in the sense that it doesn't have any caching. Using this worker helps achieve a better development experience.
 
 # NPM scripts
 
-### Start development server:
+We included 2 options for starting a development server, based on different development scenarios:
 
-- Live reloading
-- Dev service worker
-- Good choice for common development
+### 1: Common frontend development
 
-```
+- 'Hot' browser reloading at every code change
+- 'Transparent' development service worker
+
+```shell
 npm start
 ```
 
-### Start development server:
+### 2: Developing offline features, testing caching, running Lighthouse tests
 
 - Rebuild on change
 - No Live reloading
-- Fully functional service worker
-- Good choice for developing offline features, testing caching, running Lighthouse tests
+- **Fully functional service worker**
 
-```
+```shell
 npm run serve
 ```
 
 ### Build for production:
 
-```
+```shell
 npm run build
 ```

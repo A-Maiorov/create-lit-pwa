@@ -1,6 +1,6 @@
 {
   "name": "create-lit-pwa",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "keywords": ["Lit", "Web Components", "PWA", "Progressive Web App", "Template", "esbuild", "typescript"],
   "description": "Create super simple PWA template",
   "main": "main.js",
