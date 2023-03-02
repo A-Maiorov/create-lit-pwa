@@ -1,11 +1,14 @@
 import { css, html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
-import { PageTwo } from "./components/pageTwo";
 import { LocationController } from "./locationController";
 import { LoadPolyfillsIfNeeded } from "./polyfills/polyfillsLoader";
+import { IRouteMap } from "./router";
 import "./components/nameEditor";
 import "./components/name";
 import "./components/pageOne";
+import "./components/pageTwo";
+import "./components/pageNotFound";
+import "./components/pageThree";
 import "./registerSW";
 
 const polyfillsLoaded = LoadPolyfillsIfNeeded();
@@ -30,16 +33,33 @@ class App extends LitElement {
       color: blue;
     }
   `;
+  routes: IRouteMap = {
+    "page-one*": html`<litpwaelementprefixplaceholder-page-one></litpwaelementprefixplaceholder-page-one>`,
+    "page-two?id=:id(\\d+)": (routeData) =>
+      html`<litpwaelementprefixplaceholder-page-two
+        .pageId=${routeData.search.groups.id}
+      ></litpwaelementprefixplaceholder-page-two>`,
+    "page-three(/)?:id(foo|bar)?": (routeData) =>
+      html`<litpwaelementprefixplaceholder-page-three
+        .pageId=${routeData.pathname.groups.id}
+      ></litpwaelementprefixplaceholder-page-three>`,
+  };
 
   // define 'name' property
   @property({ type: String })
   name: string;
+
   locationController: LocationController;
 
   constructor() {
     super();
     this.name = "Somebody";
+
     this.locationController = new LocationController(this);
+    this.locationController.setRouter(
+      this.routes,
+      html`<litpwaelementprefixplaceholder-page-not-found></litpwaelementprefixplaceholder-page-not-found>`
+    );
   }
 
   render() {
