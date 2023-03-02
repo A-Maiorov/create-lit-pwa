@@ -155,10 +155,15 @@ spawn(cmd, args, { stdio: "inherit" }).on("exit", (code) => {
   if (!code) {
     console.log(
       "\x1b[0m" +
-        "Success! Now you can start development server by typing: " +
+        "Success! Now you can start development server using: \n" +
         "\x1b[36m" +
         "npm start" +
-        "\x1b[0m"
+        "\x1b[0m" +
+        " (for hot-reloading)\nor\n" +
+        "\x1b[36m" +
+        "npm run serve" +
+        "\x1b[0m" +
+        " (for offline testing, service worker testing and Lighthouse)"
     );
   }
   process.exit(code);
