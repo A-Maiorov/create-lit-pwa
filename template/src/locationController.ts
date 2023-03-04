@@ -11,6 +11,16 @@ export class LocationController implements ReactiveController {
   host: LitElement;
   handler: ((location: Location, state: any) => void) | undefined;
 
+  constructor(host: LitElement) {
+    this.host = host;
+    host.addController(this);
+    window.addEventListener("popstate", this.listener);
+  }
+
+  setLocationChangeHandler(handler?: (location: Location, state: any) => void) {
+    this.handler = handler?.bind(this.host);
+  }
+
   private listener = (e: PopStateEvent) => {
     this.handler?.(location, e.state);
     this.host.requestUpdate();
@@ -18,16 +28,6 @@ export class LocationController implements ReactiveController {
 
   goTo(path: string) {
     goTo(path);
-  }
-
-  constructor(
-    host: LitElement,
-    handler?: ((location: Location, state: any) => void) | undefined
-  ) {
-    this.host = host;
-    this.handler = handler?.bind(host);
-    host.addController(this);
-    window.addEventListener("popstate", this.listener);
   }
 
   public hostDisconnected() {

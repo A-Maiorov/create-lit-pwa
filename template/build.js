@@ -41,8 +41,9 @@ const commonOptions = {
 const appOptions = {
   ...commonOptions,
   logLevel: "info",
-  entryPoints: ["src/app.ts"],
-  outfile: `public/scripts/app.js`,
+  outdir: "public/scripts",
+  entryPoints: ["src/app.ts", "src/polyfills/urlpatternPolyfill.ts"], //Create separate bundles for polyfills
+  external: ["/scripts/polyfills/urlpatternPolyfill.js"], //Make sure that polyfills are not bundled with app.js (see: /src/polyfills/polyfillsLoader.ts)
   footer: { js: hotReload ? `(${regHotReload.toString()})();` : "" },
   plugins: serviceWorker
     ? [

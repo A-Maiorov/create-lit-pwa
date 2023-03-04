@@ -1,6 +1,11 @@
 # Create Lit PWA
 
-To install, run `npm init lit-pwa@latest`
+![](lit-pwa.jpeg)
+
+To install, run 
+```shell
+npm init lit-pwa@latest
+```
 
 # Introduction
 

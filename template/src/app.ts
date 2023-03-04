@@ -1,10 +1,14 @@
 import { css, html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
-import { PageTwo } from "./components/pageTwo";
 import { LocationController } from "./locationController";
+import { IRouteMap, Router } from "./router";
+import "./polyfills/polyfillsLoader"; //start dynamically laoding polyfills if they are needed
 import "./components/nameEditor";
 import "./components/name";
 import "./components/pageOne";
+import "./components/pageTwo";
+import "./components/pageNotFound";
+import "./components/pageThree";
 import "./registerSW";
 
 /**
@@ -27,19 +31,39 @@ class App extends LitElement {
       color: blue;
     }
   `;
-
   // define 'name' property
   @property({ type: String })
   name: string;
-  locationController: LocationController;
+  locationController: LocationController; // Triggers re-rendering when location changes
+  router: Router; // Choses which page to render for current location
 
   constructor() {
     super();
-    this.name = "Somebody";
+    this.name = "Somebody!!!!";
+
     this.locationController = new LocationController(this);
+
+    const routes: IRouteMap = {
+      "page-one*": html`<litpwaelementprefixplaceholder-page-one></litpwaelementprefixplaceholder-page-one>`,
+      "page-two?id=:id(\\d+)": (routeData) =>
+        html`<litpwaelementprefixplaceholder-page-two
+          .pageId=${routeData.search.groups.id}
+        ></litpwaelementprefixplaceholder-page-two>`,
+      "page-three(/)?:id(foo|bar)?": (routeData) =>
+        html`<litpwaelementprefixplaceholder-page-three
+          .pageId=${routeData.pathname.groups.id}
+        ></litpwaelementprefixplaceholder-page-three>`,
+    };
+    this.router = new Router(
+      routes,
+      html`<litpwaelementprefixplaceholder-page-not-found></litpwaelementprefixplaceholder-page-not-found>`,
+      html`<p>Loading...</p>`
+    );
   }
 
   render() {
+    const page = this.router.matchRoute();
+
     return html`
       <img width="35%" alt="Lit PWA" src="/images/manifest/lit-pwa.png" />
       <section>
@@ -57,28 +81,20 @@ class App extends LitElement {
       <section>
         <button @click=${this.goToPage1}>Page 1</button>
         <button @click=${this.goToPage2}>Page 2</button>
-        <main>${this.renderPage()}</main>
+        <button @click=${this.goToPage3}>Page 3</button>
+        <main>${page}</main>
       </section>
     `;
   }
 
-  renderPage() {
-    switch (location.pathname) {
-      case "/page-one":
-      case "/":
-      case "":
-        return html`<litpwaelementprefixplaceholder-page-one></litpwaelementprefixplaceholder-page-one>`;
-      case "/page-two":
-        return new PageTwo();
-      default:
-        return html`Ooops, page not found!`;
-    }
-  }
   goToPage1() {
     this.locationController.goTo("/page-one");
   }
   goToPage2() {
-    this.locationController.goTo("/page-two");
+    this.locationController.goTo("/page-two?id=1");
+  }
+  goToPage3() {
+    this.locationController.goTo("/page-three/foo");
   }
 
   handleNameChange(e: CustomEvent<{ name: string }>) {
