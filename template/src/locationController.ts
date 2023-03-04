@@ -1,5 +1,4 @@
 import { LitElement, ReactiveController } from "lit";
-import { IRouteMap, RouteHandler, Router } from "./router";
 
 export const goTo = (path: string | URL) => {
   const state = {};
@@ -11,7 +10,6 @@ export const goTo = (path: string | URL) => {
 export class LocationController implements ReactiveController {
   host: LitElement;
   handler: ((location: Location, state: any) => void) | undefined;
-  router: Router | undefined;
 
   constructor(host: LitElement) {
     this.host = host;
@@ -21,10 +19,6 @@ export class LocationController implements ReactiveController {
 
   setLocationChangeHandler(handler?: (location: Location, state: any) => void) {
     this.handler = handler?.bind(this.host);
-  }
-
-  setRouter(routeMap: IRouteMap, notFoundPage?: RouteHandler | undefined) {
-    this.router = new Router(routeMap, notFoundPage);
   }
 
   private listener = (e: PopStateEvent) => {

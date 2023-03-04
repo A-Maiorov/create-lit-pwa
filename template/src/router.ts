@@ -14,16 +14,25 @@ export interface IRouteMap {
 export class Router {
   routeMap: Map<URLPattern, RouteHandler> = new Map();
   ready: Promise<void>;
+  loadingPage: RouteHandler;
 
-  constructor(routes: IRouteMap, notFoundPage?: RouteHandler | undefined) {
-    this.ready = this.init(routes, notFoundPage);
+  constructor(
+    routes: IRouteMap,
+    notFoundPage?: RouteHandler | undefined,
+    loadingPage?: RouteHandler | undefined
+  ) {
+    this.loadingPage = loadingPage || html`<span>Loading...</span>`;
+    this.ready = this.init(routes, notFoundPage); // Compile url patterns
   }
 
   private async init(
     routes: IRouteMap,
     notFoundPage?: RouteHandler | undefined
   ) {
-    await polyfillsLoaded;
+    //Make sure that polyfills are loaded befor using URLPattern API
+    //https://developer.chrome.com/articles/urlpattern/
+    //https://developer.mozilla.org/en-US/docs/Web/API/URL_Pattern_API
+    await polyfillsLoaded; //Make sure that polyfills are loaded befor using URLPattern API
     if (routes)
       for (const r in routes) {
         this.routeMap.set(new URLPattern(r, window.location.origin), routes[r]);
@@ -40,7 +49,7 @@ export class Router {
   }
 
   private async matchWhenReady() {
-    await this.ready;
+    await this.ready; // Wait for compiled patterns and polyfills (if needed)
 
     const url = window.location.toString();
     for (const [pattern, handler] of this.routeMap) {
@@ -52,6 +61,8 @@ export class Router {
   }
 
   matchRoute() {
-    return until(this.matchWhenReady(), html`<span>Loading...</span>`);
+    // Use until directive to show "Loading..." message while polyfills are being loaded.
+    // https://lit.dev/docs/templates/directives/#until
+    return until(this.matchWhenReady(), this.loadingPage);
   }
 }
