@@ -7,7 +7,9 @@
   "scripts": {
     "start": "node build.js -w -o",
     "build": "node build.js -sw",
-    "serve": "node build.js -w -sw -o"
+    "serve": "node build.js -sw -o",
+    "test": "wtr",
+    "test:debug": "npm run test -- --watch"
   },
   "keywords": [
     "es6",
@@ -42,10 +44,17 @@
     "urlpattern-polyfill" : "^6.0.2"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.53.0",
-    "@typescript-eslint/parser": "^5.53.0",
-    "esbuild": "^0.17.10",
-    "eslint": "^8.34.0",
+    "@types/jasmine": "^4.3.1",
+    "@web/test-runner": "^0.15.1",
+    "web-test-runner-jasmine": "0.0.3",
+    "@web/test-runner-playwright": "^0.9.0",
+    "@web/dev-server-esbuild": "0.3.3",
+    "jasmine": "^4.5.0",
+    
+    "@typescript-eslint/eslint-plugin": "^5.54.1",
+    "@typescript-eslint/parser": "^5.54.1",
+    "esbuild": "^0.17.11",
+    "eslint": "^8.36.0",
     "eslint-plugin-lit": "^1.8.2",
     "typescript": "^4.9.5"
   }

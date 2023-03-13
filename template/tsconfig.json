@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "strict": true,
+    "strictNullChecks": false,
     "outDir": "../public/scripts",
     "moduleResolution": "node",
     "module": "ES2020",
@@ -10,5 +11,6 @@
     "noEmit": true
   },
   "exclude": ["node_modules", "service-worker", "public"],
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "types": ["lit", "jasmine"]
 }

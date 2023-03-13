@@ -99,3 +99,27 @@ npm run serve
 ```shell
 npm run build
 ```
+
+### Run tests:
+
+```shell
+npm test
+```
+
+### Debug tests: 
+```shell
+npm run test:debug
+```
+
+## Testing
+
+Lit PWA uses `@web/test-runner` for testing. You can read more about it here:
+
+https://modern-web.dev/guides/test-runner/getting-started
+https://modern-web.dev/guides/test-runner/watch-and-debug/
+https://www.npmjs.com/package/web-test-runner-jasmine
+
+
+
+
+

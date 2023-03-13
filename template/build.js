@@ -81,7 +81,7 @@ function getSwBuildOptions(timestamp) {
   };
 }
 
-if (!watch) {
+if (!watch && !open) {
   await build(appOptions);
   proc.exit();
 }

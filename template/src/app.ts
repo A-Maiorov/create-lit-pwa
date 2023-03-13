@@ -65,7 +65,7 @@ class App extends LitElement {
     const page = this.router.matchRoute();
 
     return html`
-      <img width="35%" alt="Lit PWA" src="/images/manifest/lit-pwa.png" />
+      <img alt="Lit PWA" src="/images/lit-pwa.webp" />
       <section>
         <p>
           Hello,
