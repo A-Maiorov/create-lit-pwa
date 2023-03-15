@@ -20,6 +20,7 @@ class App extends LitElement {
       display: flex;
       flex-direction: column;
       align-items: center;
+      height: 100;
     }
 
     section,
@@ -30,6 +31,18 @@ class App extends LitElement {
     p {
       color: blue;
     }
+    .name {
+      display: block;
+      height: 70px;
+    }
+    img {
+      width: 250px;
+      height: 250px;
+    }
+
+    .pages {
+      height: 100%;
+    }
   `;
   // define 'name' property
   @property({ type: String })
@@ -39,12 +52,12 @@ class App extends LitElement {
 
   constructor() {
     super();
-    this.name = "Somebody!!!!";
+    this.name = "Somebody!";
 
     this.locationController = new LocationController(this);
 
     const routes: IRouteMap = {
-      "page-one*": html`<litpwaelementprefixplaceholder-page-one></litpwaelementprefixplaceholder-page-one>`,
+      "(page-one*|/?)": html`<litpwaelementprefixplaceholder-page-one></litpwaelementprefixplaceholder-page-one>`,
       "page-two?id=:id(\\d+)": (routeData) =>
         html`<litpwaelementprefixplaceholder-page-two
           .pageId=${routeData.search.groups.id}

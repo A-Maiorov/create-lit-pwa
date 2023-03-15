@@ -1,7 +1,15 @@
 declare let self: ServiceWorkerGlobalScope;
+
+async function clearCache() {
+  const keys = await caches.keys();
+  for (const k of keys) {
+    await caches.delete(k);
+  }
+}
+
 // The install handler takes care of precaching the resources we always need.
-self.addEventListener("install", (event) => {
-  event.waitUntil(self.skipWaiting());
+self.addEventListener("install", async (event) => {
+  event.waitUntil(clearCache().then(self.skipWaiting));
 });
 
 self.addEventListener("fetch", async (event) => {
