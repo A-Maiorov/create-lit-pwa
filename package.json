@@ -1,11 +1,19 @@
 {
   "name": "create-lit-pwa",
-  "version": "0.1.22",
-  "keywords": ["Lit", "Web Components", "PWA", "Progressive Web App", "Template", "esbuild", "typescript"],
+  "version": "0.1.25",
+  "keywords": [
+    "Lit",
+    "Web Components",
+    "PWA",
+    "Progressive Web App",
+    "Template",
+    "esbuild",
+    "typescript"
+  ],
   "description": "Create super simple PWA template",
   "main": "main.js",
   "type": "module",
-  "bin":"main.js",
+  "bin": "main.js",
   "module": "true",
   "repository": {
     "type": "git",
@@ -15,8 +23,7 @@
     "url": "https://github.com/A-Maiorov/create-lit-pwa/issues"
   },
   "homepage": "https://github.com/A-Maiorov/create-lit-pwa#readme",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "",
   "license": "MIT"
 }

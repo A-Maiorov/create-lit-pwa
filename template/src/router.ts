@@ -1,5 +1,4 @@
-import { html } from "lit";
-import { TemplateResult } from "lit-html";
+import { html, TemplateResult } from "lit";
 import { polyfillsLoaded } from "./polyfills/polyfillsLoader";
 import { until } from "lit/directives/until.js";
 
@@ -29,10 +28,10 @@ export class Router {
     routes: IRouteMap,
     notFoundPage?: RouteHandler | undefined
   ) {
-    //Make sure that polyfills are loaded befor using URLPattern API
+    //Make sure that polyfills are loaded before using URLPattern API
     //https://developer.chrome.com/articles/urlpattern/
     //https://developer.mozilla.org/en-US/docs/Web/API/URL_Pattern_API
-    await polyfillsLoaded; //Make sure that polyfills are loaded befor using URLPattern API
+    await polyfillsLoaded;
     if (routes)
       for (const r in routes) {
         this.routeMap.set(new URLPattern(r, window.location.origin), routes[r]);

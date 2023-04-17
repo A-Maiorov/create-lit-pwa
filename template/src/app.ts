@@ -2,7 +2,7 @@ import { css, html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
 import { LocationController } from "./locationController";
 import { IRouteMap, Router } from "./router";
-import "./polyfills/polyfillsLoader"; //start dynamically laoding polyfills if they are needed
+import "./polyfills/polyfillsLoader"; //start dynamically loading polyfills if they are needed
 import "./components/nameEditor";
 import "./components/name";
 import "./components/pageOne";
@@ -58,7 +58,7 @@ class App extends LitElement {
 
     const routes: IRouteMap = {
       "(page-one*|/?)": html`<litpwaelementprefixplaceholder-page-one></litpwaelementprefixplaceholder-page-one>`,
-      "page-two?id=:id(\\d+)": (routeData) =>
+      "page-two?id=:id(\\d+)": (routeData: URLPatternResult) =>
         html`<litpwaelementprefixplaceholder-page-two
           .pageId=${routeData.search.groups.id}
         ></litpwaelementprefixplaceholder-page-two>`,
