@@ -1,35 +1,18 @@
-import { html, LitElement, render } from "lit";
+import { expect, fixture, html } from "@open-wc/testing";
 import "./name";
 
-describe("litpwaelementprefixplaceholder-name", () => {
-  let root: HTMLElement;
-
-  beforeEach(() => {
-    root = document.createElement("div");
-    document.body.appendChild(root);
-  });
-
-  afterEach(() => {
-    root.remove();
-  });
-
+describe("pwa-name", () => {
   it("should create element", async () => {
     const name = "It's me";
-    render(
+    const nameElement = await fixture(
       html`<litpwaelementprefixplaceholder-name
         data-name=${name}
-      ></litpwaelementprefixplaceholder-name>`,
-      root
+      ></litpwaelementprefixplaceholder-name>`
     );
-    const nameElement = document.querySelector(
-      "litpwaelementprefixplaceholder-name"
-    ) as LitElement;
-
-    await nameElement.updateComplete;
 
     const span = nameElement.shadowRoot.querySelector("span");
 
-    expect(span).toBeInstanceOf(HTMLSpanElement);
-    expect(span.innerText).toBe(name);
+    expect(span).to.be.instanceOf(HTMLSpanElement);
+    expect(span.innerText).to.be.eq(name);
   });
 });
