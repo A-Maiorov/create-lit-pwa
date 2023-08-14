@@ -17,7 +17,7 @@ async function* getFiles(dir) {
   }
 }
 
-const tplPath = templateRoot + "template";
+let tplPath = templateRoot + "templates/";
 const appPath = process.cwd();
 const titlePlaceholder = /litpwatitleplaceholder/gi;
 const packageNamePlaceholder = /litpwapackagenameplaceholder/gi;
@@ -25,11 +25,12 @@ const elementPrefixPlaceholder = /litpwaelementprefixplaceholder/gi;
 
 /**
  * Replace placeholders and copy template
- * @param {{ confirmCurrentDirectory: boolean, appId: string, appTitle: string, customElementPrefix: string }} answers
+ * @param {{ confirmCurrentDirectory: boolean, appId: string, appTitle: string, customElementPrefix: string, templateName: string }} answers
  */
 export async function copyTemplate(answers) {
+  tplPath += answers.templateName;
   const patchSettings = [
-    { placeholder: titlePlaceholder, value: answers.titlePlaceholder },
+    { placeholder: titlePlaceholder, value: answers.appTitle },
     { placeholder: packageNamePlaceholder, value: answers.appId },
     {
       placeholder: elementPrefixPlaceholder,
@@ -37,12 +38,8 @@ export async function copyTemplate(answers) {
     },
   ];
   for await (const f of getFiles(tplPath)) {
-    // console.log(
     await patchAndCopy(f, patchSettings);
-    //);
   }
-  // console.log(answers);
-  // console.log(tplPath);
 }
 
 /**

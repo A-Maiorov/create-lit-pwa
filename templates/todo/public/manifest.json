@@ -1,0 +1,24 @@
+{
+    "short_name": "litpwapackagenameplaceholder",
+    "name": "litpwatitleplaceholder",
+    "icons": [
+      {
+        "src": "/images/manifest/lit-pwa.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "any"
+      },
+      {
+        "src": "/images/manifest/lit-pwa-maskable.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "maskable"
+      }
+    ],
+    "id": "/?source=litpwapackagenameplaceholder",
+    "start_url": "/?source=litpwapackagenameplaceholder",
+    "background_color": "#FFFFFF",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#FFFFFF"
+  }

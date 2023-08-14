@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preload" href="/materialIcons.woff2" as="font" type="font/woff2" crossorigin>
+
+    <style>
+        /* normalize.css */
+        *:where(:not(html, iframe, canvas, img, svg, video, audio):not(svg *, symbol *, litpwaelementprefixplaceholder-*)) {
+            all: unset;
+            display: revert;
+        }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        a, button {
+            cursor: revert;
+        }
+        ol, ul, menu {
+            list-style: none;
+        } 
+        img {
+            max-inline-size: 100%;
+            max-block-size: 100%;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        input, textarea {
+            -webkit-user-select: auto;
+        }
+        textarea {
+            white-space: revert;
+        }
+        meter {
+            -webkit-appearance: revert;
+            appearance: revert;
+        }
+        :where(pre) {
+            all: revert;
+        }
+        ::placeholder {
+            color: unset;
+        }
+        ::marker {
+            content: initial;
+        }
+        :where([hidden]) {
+            display: none;
+        }
+        :where([contenteditable]:not([contenteditable="false"])) {
+            -moz-user-modify: read-write;
+            -webkit-user-modify: read-write;
+            overflow-wrap: break-word;
+            -webkit-line-break: after-white-space;
+            -webkit-user-select: auto;
+        }
+        :where([draggable="true"]) {
+            -webkit-user-drag: element;
+        }
+        :where(dialog:modal) {
+            all: revert;
+        }
+        /* es6pwa */
+        html * {
+            font-family: verdana, sans-serif;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+        }
+     
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url(/materialIcons.woff2) format('woff2');
+        }
+
+        
+    </style>
+    <meta charset="utf-8">
+    <link rel="manifest" href="/manifest.json">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="litpwatitleplaceholder">
+    <meta name="theme-color" content="#FFFFFF"/>
+    <link rel="apple-touch-icon" href="/images/manifest/lit-pwa.png">
+    <title>litpwatitleplaceholder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script async type="module" src="/scripts/app.js"></script>
+    <style>
+        :root{           
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <litpwaelementprefixplaceholder-app></litpwaelementprefixplaceholder-app>
+</body>
+</html>

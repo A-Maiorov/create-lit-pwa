@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["WebWorker", "ES2020"]
+  },
+  "files": ["./serviceWorker.ts"]
+}

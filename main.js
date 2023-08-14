@@ -35,3 +35,4 @@ console.log(
     " (for offline testing, service worker testing and Lighthouse)" +
     reset
 );
+process.exit(0);

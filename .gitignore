@@ -8,6 +8,14 @@ lerna-debug.log*
 
 .DS_Store
 
+.Wireit
+
+*lock*
+
+templates/*/public/**/*.js
+templates/*/public/**/*.js.map
+
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
