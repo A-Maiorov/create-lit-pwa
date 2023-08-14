@@ -1,9 +1,4 @@
-import {
-  mkdir,
-  readFile,
-  readdir,
-  writeFile,
-} from "fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "fs/promises";
 import { resolve, sep } from "path";
 import { getTemplateRoot } from "./dir.js";
 
@@ -24,10 +19,8 @@ async function* getFiles(dir) {
 
 const appPath = process.cwd();
 const titlePlaceholder = /litpwatitleplaceholder/gi;
-const packageNamePlaceholder =
-  /litpwapackagenameplaceholder/gi;
-const elementPrefixPlaceholder =
-  /litpwaelementprefixplaceholder/gi;
+const packageNamePlaceholder = /litpwapackagenameplaceholder/gi;
+const elementPrefixPlaceholder = /litpwaelementprefixplaceholder/gi;
 
 /**
  * Replace placeholders and copy template
@@ -74,17 +67,11 @@ async function patchAndCopy(file, patchSettings, tplPath) {
     file.endsWith("json") ||
     file.endsWith("md");
 
-  let fileContent = await readFile(
-    file,
-    isText ? "utf-8" : undefined
-  );
+  let fileContent = await readFile(file, isText ? "utf-8" : undefined);
 
   if (isText)
     for (const patch of patchSettings)
-      fileContent = fileContent.replace(
-        patch.placeholder,
-        patch.value
-      );
+      fileContent = fileContent.replace(patch.placeholder, patch.value);
 
   await mkdir(directory, { recursive: true });
 
