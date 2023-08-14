@@ -1,5 +1,11 @@
 import * as readline from "readline";
-import { blue, gray, green, magenta, reset } from "../util/colors.js";
+import {
+  blue,
+  green,
+  magenta,
+  reset,
+  yellow,
+} from "../util/colors.js";
 const input = process.stdin;
 const output = process.stdout;
 
@@ -23,18 +29,29 @@ const selectPromptPromise = new Promise((res) => {
 const keyPressedHandler = (_, key) => {
   if (key) {
     const optionLength = selectOption.options.length - 1;
-    if (key.name === "down" && selectOption.selectIndex < optionLength) {
+    if (
+      key.name === "down" &&
+      selectOption.selectIndex < optionLength
+    ) {
       selectOption.selectIndex += 1;
       selectOption.createOptionMenu();
-    } else if (key.name === "up" && selectOption.selectIndex > 0) {
+    } else if (
+      key.name === "up" &&
+      selectOption.selectIndex > 0
+    ) {
       selectOption.selectIndex -= 1;
       selectOption.createOptionMenu();
-    } else if (key.name === "escape" || (key.name === "c" && key.ctrl)) {
+    } else if (
+      key.name === "escape" ||
+      (key.name === "c" && key.ctrl)
+    ) {
       selectOption.close();
     } else if (key.name === "return") {
       selectOption.stop();
       resolveSelectPromptPromise(
-        selectOption.options[selectOption.selectIndex].name.toLowerCase()
+        selectOption.options[
+          selectOption.selectIndex
+        ].name.toLowerCase()
       );
     }
   }
@@ -60,7 +77,7 @@ const ansiEraseLines = (count) => {
 };
 
 export const startSelectTemplatePrompt = () => {
-  const question = gray + "\nSelect template:" + reset;
+  const question = yellow + "\nSelect template:" + reset;
   console.log(question);
 
   readline.emitKeypressEvents(input);
@@ -102,7 +119,9 @@ selectOption.createOptionMenu = () => {
   for (let i = 0; i < optionLength; i++) {
     const selectedOption =
       i === selectOption.selectIndex
-        ? `${paddingSelected}${cursorColor} ${writeOption(i)}`
+        ? `${paddingSelected}${cursorColor} ${writeOption(
+            i
+          )}`
         : paddingDeselected + writeOption(i);
     const ending = i !== optionLength - 1 ? "\n" : "";
     output.write(selectedOption + ending);
