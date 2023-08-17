@@ -106,9 +106,10 @@ npm run test:debug
 
 Lit PWA uses `@web/test-runner` for testing. You can read more about it here:
 
+https://open-wc.org/blog/testing-workflow-for-web-components/
 https://modern-web.dev/guides/test-runner/getting-started
 https://modern-web.dev/guides/test-runner/watch-and-debug/
-https://www.npmjs.com/package/web-test-runner-jasmine
+
 
 
 

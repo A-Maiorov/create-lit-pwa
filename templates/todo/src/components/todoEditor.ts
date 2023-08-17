@@ -12,20 +12,20 @@ import { consume } from "@lit-labs/context";
 @customElement("litpwaelementprefixplaceholder-todo-editor")
 export class TodoEditor extends LitElement {
   @query("form[name=todo]")
-  todoForm: HTMLFormElement | undefined;
+  declare todoForm: HTMLFormElement | undefined;
 
   @property({ type: Number })
-  todoId: number | undefined;
+  declare todoId: number | undefined;
 
   @state()
   @consume({ context: ctxTodo, subscribe: true })
-  todos: ITodo[];
+  private declare todos: ITodo[];
 
   @state()
-  todo: ITodo;
+  private declare todo: ITodo;
 
-  @consume({ context: ctxTodoActions })
-  todoActions: ICtxTodoActions;
+  @consume({ context: ctxTodoActions, subscribe: true })
+  private declare todoActions: ICtxTodoActions;
 
   static styles = [
     roundedBlock,
@@ -66,7 +66,7 @@ export class TodoEditor extends LitElement {
   ];
 
   protected render() {
-    this.todo = this.todos.find((x) => x.id === this.todoId) || {
+    this.todo = this.todos?.find((x) => x.id === this.todoId) || {
       id: undefined,
       isDone: false,
       text: "",
@@ -82,22 +82,26 @@ export class TodoEditor extends LitElement {
         </textarea>
         <section class="buttons">
           <div>
-            <button class="rounded-button" @click=${this.saveTodo}>Save</button>
-            <button class="rounded-button" @click=${this.cancel}>Cancel</button>
+            <button class="rounded-button" @click=${this.#saveTodo}>
+              Save
+            </button>
+            <button class="rounded-button" @click=${this.#cancel}>
+              Cancel
+            </button>
           </div>
           <div>
             <button
               class="rounded-button"
-              ?disabled=${!this.canDelete}
-              @click=${this.deleteTodo}
+              ?disabled=${!this.#canDelete}
+              @click=${this.#deleteTodo}
             >
               Delete
             </button>
 
             <button
               class="rounded-button"
-              ?disabled=${!this.canComplete}
-              @click=${this.completeTodo}
+              ?disabled=${!this.#canComplete}
+              @click=${this.#completeTodo}
             >
               Complete
             </button>
@@ -106,29 +110,29 @@ export class TodoEditor extends LitElement {
       </form>
     `;
   }
-  private get canComplete() {
+  get #canComplete() {
     return this.todo.id !== undefined && !this.todo.isDone;
   }
 
-  private get canDelete() {
+  get #canDelete() {
     return this.todo.id !== undefined;
   }
 
-  private completeTodo(e: Event) {
+  #completeTodo(e: Event) {
     e.preventDefault();
     if (!this.todo) return;
     this.todo.isDone = true;
-    this.todo.text = this.getTodoText();
+    this.todo.text = this.#getTodoText();
     this.todoActions.updateTodo(this.todo);
   }
 
-  private getTodoText() {
+  #getTodoText() {
     return new FormData(this.todoForm).get("text")?.toString().trim() || "";
   }
 
-  private saveTodo(e: Event) {
+  #saveTodo(e: Event) {
     e.preventDefault();
-    const text = this.getTodoText();
+    const text = this.#getTodoText();
     if (this.todo.id !== undefined) {
       this.todo.text = text;
       this.todoActions.updateTodo(this.todo);
@@ -137,12 +141,12 @@ export class TodoEditor extends LitElement {
     }
   }
 
-  private deleteTodo(e: Event) {
+  #deleteTodo(e: Event) {
     e.preventDefault();
     this.todoActions.deleteTodo(this.todo.id);
   }
 
-  private cancel(e: Event) {
+  #cancel(e: Event) {
     e.preventDefault();
     this.dispatchEvent(new CustomEvent("todo-edit-cancelled"));
   }

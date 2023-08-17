@@ -61,23 +61,27 @@ export class TodoList extends LitElement {
 
   @state()
   @consume({ context: ctxTodo, subscribe: true })
-  allTodos: ICtxTodo;
+  declare allTodos: ICtxTodo | undefined;
 
   @consume({ context: ctxTodoActions, subscribe: true })
-  todoActions: ICtxTodoActions;
+  declare todoActions: ICtxTodoActions;
 
   protected render() {
     return html` <menu>
-      ${repeat(this.allTodos, (t) => t.id, this.renderTodoItem.bind(this))}
+      ${repeat(
+        this.allTodos || [],
+        (t) => t.id,
+        this.#renderTodoItem.bind(this)
+      )}
     </menu>`;
   }
 
-  protected renderTodoItem(todo: ITodo, index: number) {
-    if (todo.isDone) return this.renderCompletedItem(todo, index);
-    return this.renderActiveItem(todo, index);
+  #renderTodoItem(todo: ITodo, index: number) {
+    if (todo.isDone) return this.#renderCompletedItem(todo, index);
+    return this.#renderActiveItem(todo, index);
   }
 
-  protected renderCompletedItem(todo: ITodo, index: number) {
+  #renderCompletedItem(todo: ITodo, index: number) {
     const deleteClickHandler = () => this.todoActions.deleteTodo(todo.id);
     return html` <li
       class="rounded-block"
@@ -92,7 +96,7 @@ export class TodoList extends LitElement {
       <i class="icon"> done</i>
     </li>`;
   }
-  protected renderActiveItem(todo: ITodo, index: number) {
+  #renderActiveItem(todo: ITodo, index: number) {
     const itemClickHandler = () => {
       this.router.goTo(`/edit-todo/${todo.id}`);
     };

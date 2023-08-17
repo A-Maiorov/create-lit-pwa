@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
-import { eventOptions, property } from "lit/decorators.js";
+import { eventOptions, property, customElement } from "lit/decorators.js";
 
+@customElement("litpwaelementprefixplaceholder-name-editor")
 export class NameEditor extends LitElement {
   @property({ type: String, attribute: "data-placeholder" })
   declare placeholder: string | undefined;
@@ -27,5 +28,3 @@ export class NameEditor extends LitElement {
     this.dispatchEvent(nameChanged);
   }
 }
-
-customElements.define("litpwaelementprefixplaceholder-name-editor", NameEditor);

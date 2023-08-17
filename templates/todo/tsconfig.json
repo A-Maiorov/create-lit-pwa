@@ -4,14 +4,15 @@
     "strictNullChecks": false,
     "outDir": "../public/scripts",
     "moduleResolution": "node",
-    "module": "ES2020",
-    "target": "ES2020",
+    "module": "es2022",
+    "target": "es2022",
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": false,
     "checkJs": true,
     "noEmit": true
   },
   "exclude": ["node_modules", "service-worker", "public"],
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "tests"],
   "types": ["lit"]
 }

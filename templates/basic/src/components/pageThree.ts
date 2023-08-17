@@ -1,6 +1,8 @@
 import { html } from "lit";
 import { PageTwo } from "./pageTwo";
+import { customElement } from "lit/decorators.js";
 
+@customElement("litpwaelementprefixplaceholder-page-three")
 export class PageThree extends PageTwo {
   name = "three";
 
@@ -9,5 +11,3 @@ export class PageThree extends PageTwo {
       <p>It supports these optional path parameters: foo, bar</p> `;
   }
 }
-
-customElements.define("litpwaelementprefixplaceholder-page-three", PageThree);

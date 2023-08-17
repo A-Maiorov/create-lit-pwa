@@ -33,23 +33,23 @@ export class RouterController implements ReactiveController {
     this.routeContext = new ContextProvider(host, { context: routeCtx });
 
     this.router = new Router(routes);
-    this.ready = this.updateRoute();
+    this.ready = this.#updateRoute();
 
-    window.addEventListener("popstate", this.listener);
+    window.addEventListener("popstate", this.#listener);
   }
 
-  public async hostConnected() {
+  async hostConnected() {
     await this.ready;
     this.host.requestUpdate();
   }
 
-  private listener = async (e: PopStateEvent) => {
+  #listener = async (e: PopStateEvent) => {
     this.handler?.(location, e.state);
-    await this.updateRoute();
+    await this.#updateRoute();
     this.host.requestUpdate();
   };
 
-  private async updateRoute() {
+  async #updateRoute() {
     const result = await this.router.matchRoute();
     this.routeContext.setValue({
       activeRoute: result.route,
@@ -58,12 +58,12 @@ export class RouterController implements ReactiveController {
     });
   }
 
-  public get currentContext() {
+  get currentContext() {
     return this.routeContext.value;
   }
 
   public hostDisconnected() {
-    window.removeEventListener("popstate", this.listener);
+    window.removeEventListener("popstate", this.#listener);
   }
 
   goTo(path: string) {

@@ -31,48 +31,53 @@ export const ctxTodo = createContext<ICtxTodo>(Symbol("ctxTodo"));
 
 @customElement("litpwaelementprefixplaceholder-todo-ctx")
 export class TodoContext extends LitElement {
+  constructor() {
+    super();
+    this.todos = load();
+    this.todoActions = {
+      addTodo: (text) => {
+        const id = new Date().getTime();
+        this.todos.push({
+          id,
+          text,
+          isDone: false,
+        });
+        save(this.todos);
+        // In order to trigger an update we need either reassign property or use requestUpdate()
+        // this.todos = [
+        //   ...this.todos,
+        //   {
+        //     id,
+        //     text,
+        //     isDone: false,
+        //   },
+        // ];
+        this.requestUpdate();
+        this.dispatchEvent(new CustomEvent("todo-added", { detail: { id } }));
+      },
+      deleteTodo: (id) => {
+        const index = this.todos.findIndex((x) => x.id === id);
+        this.todos.splice(index, 1);
+        save(this.todos);
+        this.requestUpdate();
+        this.dispatchEvent(new CustomEvent("todo-deleted", { detail: { id } }));
+      },
+      updateTodo: (todo) => {
+        this.todos[todo.id] = todo;
+        save(this.todos);
+        this.requestUpdate();
+        this.dispatchEvent(
+          new CustomEvent("todo-updated", { detail: { id: todo.id } })
+        );
+      },
+    };
+  }
   @provide({ context: ctxTodo })
   @property({ attribute: false })
-  todos: ICtxTodo = load();
+  declare todos: ICtxTodo;
 
   @provide({ context: ctxTodoActions })
-  todoActions: ICtxTodoActions = {
-    addTodo: (text) => {
-      const id = new Date().getTime();
-      this.todos.push({
-        id,
-        text,
-        isDone: false,
-      });
-      save(this.todos);
-      // In order to trigger an update we need either reassign property or use requestUpdate()
-      // this.todos = [
-      //   ...this.todos,
-      //   {
-      //     id,
-      //     text,
-      //     isDone: false,
-      //   },
-      // ];
-      this.requestUpdate();
-      this.dispatchEvent(new CustomEvent("todo-added", { detail: { id } }));
-    },
-    deleteTodo: (id) => {
-      const index = this.todos.findIndex((x) => x.id === id);
-      this.todos.splice(index, 1);
-      save(this.todos);
-      this.requestUpdate();
-      this.dispatchEvent(new CustomEvent("todo-deleted", { detail: { id } }));
-    },
-    updateTodo: (todo) => {
-      this.todos[todo.id] = todo;
-      save(this.todos);
-      this.requestUpdate();
-      this.dispatchEvent(
-        new CustomEvent("todo-updated", { detail: { id: todo.id } })
-      );
-    },
-  };
+  declare todoActions: ICtxTodoActions;
 
   render() {
     return html`<slot></slot>`;

@@ -1,4 +1,3 @@
-# Logs
 logs
 *.log
 npm-debug.log*
@@ -15,6 +14,7 @@ lerna-debug.log*
 templates/*/public/**/*.js
 templates/*/public/**/*.js.map
 
+.vscode
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -48,8 +48,8 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
-jspm_packages/
+node_modules
+jspm_packages
 
 # TypeScript v1 declaration files
 typings/

@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { property } from "lit/decorators.js";
+import { property, customElement } from "lit/decorators.js";
 import { LocationController } from "./locationController";
 import { IRouteMap, Router } from "./router";
 import "./polyfills/polyfillsLoader"; //start dynamically loading polyfills if they are needed
@@ -14,6 +14,7 @@ import "./registerSW";
 /**
  * Main application
  */
+@customElement("litpwaelementprefixplaceholder-app")
 class App extends LitElement {
   static styles = css`
     :host {
@@ -114,6 +115,3 @@ class App extends LitElement {
     this.name = e.detail.name;
   }
 }
-
-// define custom element
-customElements.define("litpwaelementprefixplaceholder-app", App);

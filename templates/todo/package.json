@@ -1,5 +1,5 @@
 {
-  "name": "litpwapackagenameplaceholder-",
+  "name": "litpwapackagenameplaceholder",
   "version": "1.0.0",
   "description": "A fully working simple PWA",
   "main": "index.js",
@@ -41,21 +41,22 @@
   },
   "dependencies": {
     "lit": "^2.8.0",
-    "@lit-labs/context":"0.3.3",
+    "@lit-labs/context":"0.4.0",
     "urlpattern-polyfill" : "^9.0.0"
   },
   "devDependencies": {
     "@web/test-runner": "^0.17.0",
     "@web/test-runner-playwright": "^0.10.1",
+    "@playwright/test": "1.37.0",
     "@web/dev-server-esbuild": "^0.4.1",
     "@open-wc/testing" : "3.2.0",
     "@types/mocha":"10.0.1",
     "@types/chai": "4.3.5",
-    "@typescript-eslint/eslint-plugin": "^6.2.1",
-    "@typescript-eslint/parser": "^6.2.1",
-    "esbuild": "^0.18.18",
-    "eslint": "^8.46.0",
-    "eslint-plugin-lit": "^1.8.3",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.0",
+    "esbuild": "^0.19.2",
+    "eslint": "^8.47.0",
+    "eslint-plugin-lit": "^1.9.1",
     "typescript": "^5.1.6",
     "wireit": "0.10.0"
   },

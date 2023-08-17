@@ -5,16 +5,21 @@ import { iconCss, roundedButton } from "../sharedStyles";
 @customElement("litpwaelementprefixplaceholder-switch")
 export class Switch extends LitElement {
   @property({ type: String })
-  text: string | undefined;
+  declare text: string | undefined;
 
   @property({ type: String })
-  onIcon: string | undefined;
+  declare onIcon: string | undefined;
 
   @property({ type: String })
-  offIcon: string | undefined;
+  declare offIcon: string | undefined;
 
   @state()
-  isOn = false;
+  declare isOn;
+
+  constructor() {
+    super();
+    this.isOn = false;
+  }
 
   static styles = [
     roundedButton,
@@ -50,10 +55,6 @@ export class Switch extends LitElement {
     iconCss,
   ];
 
-  constructor() {
-    super();
-  }
-
   render() {
     const icon = this.isOn ? "light_mode" : "dark_mode";
     return html`
@@ -62,8 +63,8 @@ export class Switch extends LitElement {
         tabindex="0"
         class="btn-holder rounded-button"
         ?active=${this.isOn}
-        @click=${this.handleClick}
-        @keypress=${this.handleKeypress}
+        @click=${this.#handleClick}
+        @keypress=${this.#handleKeypress}
       >
         <div class="btn-circle">
           <i class="icon">${icon}</i>
@@ -73,17 +74,17 @@ export class Switch extends LitElement {
     `;
   }
 
-  handleKeypress(e: KeyboardEvent) {
+  #handleKeypress(e: KeyboardEvent) {
     if (e.type === "click" || e.key === "Enter") {
-      this.switchTheme();
+      this.#switchTheme();
     }
   }
 
-  handleClick() {
-    this.switchTheme();
+  #handleClick() {
+    this.#switchTheme();
   }
 
-  switchTheme() {
+  #switchTheme() {
     this.isOn = !this.isOn;
     const ev = new CustomEvent("switch", { detail: { isOn: this.isOn } });
     this.dispatchEvent(ev);

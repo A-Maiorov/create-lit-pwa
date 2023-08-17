@@ -11,7 +11,7 @@ export function getCommonOptions(minify, sourcemap) {
     minifyWhitespace: minify,
     minifySyntax: minify,
     sourcemap,
-    target: ["es2020", "chrome89", "firefox90", "safari14"],
+    target: ["es2022", "chrome89", "firefox90", "safari16"],
     platform: "browser",
     format: "esm",
   };

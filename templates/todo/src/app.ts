@@ -4,11 +4,10 @@ import { RouterController } from "./routerController";
 import { IRoute } from "./router";
 
 import "./polyfills/polyfillsLoader"; //start dynamically loading polyfills if they are needed
-
 import "./registerSW";
+
 import { darkThemeCss, iconCss, lightThemeCss } from "./sharedStyles";
 
-//import "./components/nameEditor";
 import "./components/todoEditor";
 import "./components/todoList";
 import "./components/iconLink";
@@ -33,6 +32,13 @@ const todoRoutes: IRoute[] = [
     name: "editTodo",
   },
 ];
+
+const routeTitles: Record<string, string> = {
+  todoList: "Todo:",
+  addTodo: "Add new todo",
+  editTodo: "Edit todo",
+  notFound: "Oops!",
+};
 
 /**
  * Main application
@@ -99,10 +105,10 @@ export class App extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.applyThemeHtmlBgColor();
+    this.#applyThemeHtmlBgColor();
   }
 
-  goToTodoList() {
+  #goToTodoList() {
     this.router.goTo("/");
   }
 
@@ -110,13 +116,15 @@ export class App extends LitElement {
     return html`
       <litpwaelementprefixplaceholder-todo-ctx
         class="main-container"
-        @todo-updated=${this.goToTodoList}
-        @todo-added=${this.goToTodoList}
-        @todo-deleted=${this.goToTodoList}
+        @todo-updated=${this.#goToTodoList}
+        @todo-added=${this.#goToTodoList}
+        @todo-deleted=${this.#goToTodoList}
       >
         <main>
           <header>
-            <litpwaelementprefixplaceholder-app-header></litpwaelementprefixplaceholder-app-header>
+            <litpwaelementprefixplaceholder-app-header
+              .routeTitles=${routeTitles}
+            ></litpwaelementprefixplaceholder-app-header>
           </header>
           <nav>
             <litpwaelementprefixplaceholder-icon-link
@@ -126,32 +134,32 @@ export class App extends LitElement {
               Add
             </litpwaelementprefixplaceholder-icon-link>
             <litpwaelementprefixplaceholder-switch
-              @switch=${this.changeTheme}
+              @switch=${this.#changeTheme}
               .text=${"Theme"}
               onIcon="dark_mode"
               offIcon="light_mode"
             ></litpwaelementprefixplaceholder-switch>
           </nav>
 
-          <section>${this.renderPage()}</section>
+          <section>${this.#renderPage()}</section>
         </main>
       </litpwaelementprefixplaceholder-todo-ctx>
     `;
   }
 
-  changeTheme() {
+  #changeTheme() {
     const theme = this.getAttribute("theme");
     this.setAttribute("theme", theme === "light" ? "dark" : "light");
-    this.applyThemeHtmlBgColor();
+    this.#applyThemeHtmlBgColor();
   }
 
-  applyThemeHtmlBgColor() {
+  #applyThemeHtmlBgColor() {
     const bg = getComputedStyle(this).getPropertyValue("--main-bg");
     if (document.body.parentElement)
       document.body.parentElement.style.backgroundColor = bg;
   }
 
-  renderPage() {
+  #renderPage() {
     const ctx = this.router.currentContext;
     if (!ctx) return html`Loading...`;
     switch (ctx.activeRoute.name) {
@@ -161,21 +169,21 @@ export class App extends LitElement {
         const id = parseInt(ctx.patternResult.pathname.groups.id);
         if (!isNaN(id))
           return html`<litpwaelementprefixplaceholder-todo-editor
-            @todo-edit-cancelled=${this.goToTodoList}
+            @todo-edit-cancelled=${this.#goToTodoList}
             .todoId=${id}
           ></litpwaelementprefixplaceholder-todo-editor>`;
-        return this.renderNotFound();
+        return this.#renderNotFound();
       }
       case "addTodo":
         return html`<litpwaelementprefixplaceholder-todo-editor
-          @todo-edit-cancelled=${this.goToTodoList}
+          @todo-edit-cancelled=${this.#goToTodoList}
         ></litpwaelementprefixplaceholder-todo-editor>`;
       default:
-        return this.renderNotFound();
+        return this.#renderNotFound();
     }
   }
 
-  renderNotFound() {
+  #renderNotFound() {
     return html` <h3>Oops, page not found!</h3> `;
   }
 }

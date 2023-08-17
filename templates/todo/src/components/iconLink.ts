@@ -42,8 +42,8 @@ export class IconLink extends LitElement {
     return html`
       <a
         class="rounded-button"
-        @click=${this.handleClick}
-        @keypress=${this.handleKeypress}
+        @click=${this.#handleClick}
+        @keypress=${this.#handleKeypress}
         href=${this.location || window.location.pathname}
       >
         <i class="icon">${this.icon}</i>
@@ -51,7 +51,7 @@ export class IconLink extends LitElement {
       ></a>
     `;
   }
-  handleKeypress(e: KeyboardEvent) {
+  #handleKeypress(e: KeyboardEvent) {
     e.preventDefault();
     if (e.type === "click" || e.key === "Enter") {
       if (window.location.pathname !== location.href) {
@@ -59,7 +59,7 @@ export class IconLink extends LitElement {
       }
     }
   }
-  handleClick(e: Event & { target: HTMLAnchorElement }) {
+  #handleClick(e: Event & { target: HTMLAnchorElement }) {
     e.preventDefault();
     if (window.location.pathname !== location.href) {
       this.router.goTo(this.location);

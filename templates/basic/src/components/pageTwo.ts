@@ -1,6 +1,8 @@
 import { html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
+import { customElement } from "lit/decorators.js";
 
+@customElement("litpwaelementprefixplaceholder-page-two")
 export class PageTwo extends LitElement {
   name = "two";
 
@@ -10,5 +12,3 @@ export class PageTwo extends LitElement {
     return html` <span>This is page ${this.name}. Id: ${this.pageId}</span> `;
   }
 }
-
-customElements.define("litpwaelementprefixplaceholder-page-two", PageTwo);

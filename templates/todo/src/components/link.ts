@@ -18,14 +18,14 @@ export class Link extends LitElement {
   render() {
     return html`
       <a
-        @click=${this.handleClick}
+        @click=${this.#handleClick}
         href=${this.location || window.location.pathname}
         ><slot></slot
       ></a>
     `;
   }
 
-  handleClick(e: Event & { target: HTMLAnchorElement }) {
+  #handleClick(e: Event & { target: HTMLAnchorElement }) {
     e.preventDefault();
     if (window.location.pathname !== location.href) {
       this.router.goTo(this.location);
