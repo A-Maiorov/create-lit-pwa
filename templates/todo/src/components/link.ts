@@ -1,7 +1,7 @@
 import { consume } from "@lit-labs/context";
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { ICtxRoute, routeCtx } from "../routerController";
+import { ICtxRoute, routeCtx } from "../context/routerContext";
 
 @customElement("litpwaelementprefixplaceholder-link")
 export class Link extends LitElement {

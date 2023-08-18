@@ -1,12 +1,12 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { roundedBlock, roundedButton } from "../sharedStyles";
+import { roundedBlock, roundedButton } from "../theme/sharedStyles";
 import {
   ctxTodo,
   ctxTodoActions,
   ICtxTodoActions,
   ITodo,
-} from "../todoContext";
+} from "../context/todoContext";
 import { consume } from "@lit-labs/context";
 
 @customElement("litpwaelementprefixplaceholder-todo-editor")

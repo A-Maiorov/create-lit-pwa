@@ -1,8 +1,8 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { iconCss, roundedButton } from "../sharedStyles";
+import { iconCss, roundedButton } from "../theme/sharedStyles";
 import { consume } from "@lit-labs/context";
-import { ICtxRoute, routeCtx } from "../routerController";
+import { ICtxRoute, routeCtx } from "../context/routerContext";
 
 @customElement("litpwaelementprefixplaceholder-icon-link")
 export class IconLink extends LitElement {

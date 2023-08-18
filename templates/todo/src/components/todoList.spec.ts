@@ -1,7 +1,7 @@
 import { expect, html } from "@open-wc/testing";
 import "./todoList";
 import { ctxFixture } from "../../tests/helpers/ctxFixture";
-import { ctxTodo } from "../todoContext";
+import { ctxTodo } from "../context/todoContext";
 
 describe("litpwaelementprefixplaceholder-todo-list", () => {
   it("should show active route title", async () => {

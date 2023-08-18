@@ -2,7 +2,11 @@ import { expect, html } from "@open-wc/testing";
 import "./todoEditor";
 
 import { ctxFixture } from "../../tests/helpers/ctxFixture";
-import { ICtxTodoActions, ctxTodo, ctxTodoActions } from "../todoContext";
+import {
+  ICtxTodoActions,
+  ctxTodo,
+  ctxTodoActions,
+} from "../context/todoContext";
 import { ReactiveElement } from "lit";
 
 const arrangeEditor = async (todoId: number | undefined) => {

@@ -1,9 +1,9 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { iconCss, roundedButton } from "../sharedStyles";
+import { iconCss, roundedButton } from "../theme/sharedStyles";
 
-@customElement("litpwaelementprefixplaceholder-switch")
-export class Switch extends LitElement {
+@customElement("litpwaelementprefixplaceholder-icon-switch")
+export class IconSwitch extends LitElement {
   @property({ type: String })
   declare text: string | undefined;
 
@@ -56,7 +56,7 @@ export class Switch extends LitElement {
   ];
 
   render() {
-    const icon = this.isOn ? "light_mode" : "dark_mode";
+    const icon = this.isOn ? this.onIcon : this.offIcon;
     return html`
       <div
         role="button"

@@ -1,44 +1,23 @@
 import { LitElement, css, html } from "lit";
-import { customElement } from "lit/decorators.js";
-import { RouterController } from "./routerController";
-import { IRoute } from "./router";
+import { customElement, state } from "lit/decorators.js";
+import { RouterController } from "./context/routerContext";
 
 import "./polyfills/polyfillsLoader"; //start dynamically loading polyfills if they are needed
-import "./registerSW";
+import "./utils/registerSW";
 
-import { darkThemeCss, iconCss, lightThemeCss } from "./sharedStyles";
+import { darkThemeCss, iconCss, lightThemeCss } from "./theme/sharedStyles";
 
 import "./components/todoEditor";
 import "./components/todoList";
 import "./components/iconLink";
-import "./components/switch";
-import "./todoContext";
+import "./components/iconSwitch";
+import "./context/todoContext";
 import "./components/header";
+import { Theme, getCurrentTheme, savePreferredTheme } from "./theme/theme";
+import { pagePatterns, pageTitles, renderCurrentPage } from "./pages";
+import { pageAddTodo } from "./pages/pageAddTodo";
 
-// UrlPattern Api: https://developer.mozilla.org/en-US/docs/Web/API/URLPattern
-// Pattern syntax: https://github.com/pillarjs/path-to-regexp
-const todoRoutes: IRoute[] = [
-  {
-    pattern: "(|/?)",
-    name: "todoList",
-  },
-  {
-    pattern: "(add-todo*|/?)",
-    name: "addTodo",
-  },
-
-  {
-    pattern: "edit-todo/:id(\\d+)",
-    name: "editTodo",
-  },
-];
-
-const routeTitles: Record<string, string> = {
-  todoList: "Todo:",
-  addTodo: "Add new todo",
-  editTodo: "Edit todo",
-  notFound: "Oops!",
-};
+const themePromise = getCurrentTheme();
 
 /**
  * Main application
@@ -90,23 +69,24 @@ export class App extends LitElement {
 
   router: RouterController;
 
+  @state()
+  declare themeSwitchOn: boolean;
+
   constructor() {
     super();
-    const defaultTheme = window.matchMedia("(prefers-color-scheme: dark)")
-      .matches
-      ? "dark"
-      : "light";
-    this.setAttribute("theme", defaultTheme);
+
+    themePromise.then(this.#initTheme);
+
     //Controllers automatically refresh host element,
     //subscribe and dispose subscription on disconnectedCallback
     //https://lit.dev/docs/composition/controllers/
-    this.router = new RouterController(this, todoRoutes);
+    this.router = new RouterController(this, pagePatterns);
   }
-
-  connectedCallback() {
-    super.connectedCallback();
+  #initTheme = (theme: Theme) => {
+    this.setAttribute("theme", theme);
     this.#applyThemeHtmlBgColor();
-  }
+    this.themeSwitchOn = theme === "light";
+  };
 
   #goToTodoList() {
     this.router.goTo("/");
@@ -123,67 +103,43 @@ export class App extends LitElement {
         <main>
           <header>
             <litpwaelementprefixplaceholder-app-header
-              .routeTitles=${routeTitles}
+              .routeTitles=${pageTitles}
             ></litpwaelementprefixplaceholder-app-header>
           </header>
           <nav>
             <litpwaelementprefixplaceholder-icon-link
               icon="add"
-              location="/add-todo"
+              location=${pageAddTodo.getUrl()}
             >
               Add
             </litpwaelementprefixplaceholder-icon-link>
-            <litpwaelementprefixplaceholder-switch
+            <litpwaelementprefixplaceholder-icon-switch
+              id="themeSwitch"
               @switch=${this.#changeTheme}
               .text=${"Theme"}
-              onIcon="dark_mode"
-              offIcon="light_mode"
-            ></litpwaelementprefixplaceholder-switch>
+              offIcon="dark_mode"
+              onIcon="light_mode"
+              .isOn=${this.themeSwitchOn}
+            ></litpwaelementprefixplaceholder-icon-switch>
           </nav>
 
-          <section>${this.#renderPage()}</section>
+          <section>${renderCurrentPage(this.router.currentContext)}</section>
         </main>
       </litpwaelementprefixplaceholder-todo-ctx>
     `;
   }
 
   #changeTheme() {
-    const theme = this.getAttribute("theme");
-    this.setAttribute("theme", theme === "light" ? "dark" : "light");
+    let theme = this.getAttribute("theme") as Theme;
+    theme = theme === "light" ? "dark" : "light";
+    this.setAttribute("theme", theme);
     this.#applyThemeHtmlBgColor();
+    savePreferredTheme(theme);
   }
 
   #applyThemeHtmlBgColor() {
     const bg = getComputedStyle(this).getPropertyValue("--main-bg");
     if (document.body.parentElement)
       document.body.parentElement.style.backgroundColor = bg;
-  }
-
-  #renderPage() {
-    const ctx = this.router.currentContext;
-    if (!ctx) return html`Loading...`;
-    switch (ctx.activeRoute.name) {
-      case "todoList":
-        return html`<litpwaelementprefixplaceholder-todo-list></litpwaelementprefixplaceholder-todo-list>`;
-      case "editTodo": {
-        const id = parseInt(ctx.patternResult.pathname.groups.id);
-        if (!isNaN(id))
-          return html`<litpwaelementprefixplaceholder-todo-editor
-            @todo-edit-cancelled=${this.#goToTodoList}
-            .todoId=${id}
-          ></litpwaelementprefixplaceholder-todo-editor>`;
-        return this.#renderNotFound();
-      }
-      case "addTodo":
-        return html`<litpwaelementprefixplaceholder-todo-editor
-          @todo-edit-cancelled=${this.#goToTodoList}
-        ></litpwaelementprefixplaceholder-todo-editor>`;
-      default:
-        return this.#renderNotFound();
-    }
-  }
-
-  #renderNotFound() {
-    return html` <h3>Oops, page not found!</h3> `;
   }
 }

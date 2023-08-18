@@ -1,4 +1,4 @@
-import { polyfillsLoaded } from "./polyfills/polyfillsLoader";
+import { polyfillsLoaded } from "../polyfills/polyfillsLoader";
 import { URLPatternInput } from "urlpattern-polyfill/dist/types";
 
 export interface IRoute {
@@ -11,7 +11,7 @@ export class Router {
   ready: Promise<void>;
 
   constructor(routes: IRoute[]) {
-    this.ready = this.init(routes); //, notFoundPage); // Compile url patterns
+    this.ready = this.init(routes); // Compile url patterns
   }
 
   private async init(routes: IRoute[]) {

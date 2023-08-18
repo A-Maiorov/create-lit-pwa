@@ -1,16 +1,16 @@
 import { css, html, LitElement } from "lit";
 import { repeat } from "lit/directives/repeat.js";
-import { iconCss, roundedBlock } from "../sharedStyles";
+import { iconCss, roundedBlock } from "../theme/sharedStyles";
 import { customElement, state } from "lit/decorators.js";
 import { consume } from "@lit-labs/context";
-import { ICtxRoute, routeCtx } from "../routerController";
+import { ICtxRoute, routeCtx } from "../context/routerContext";
 import {
   ctxTodo,
   ctxTodoActions,
   ICtxTodo,
   ICtxTodoActions,
   ITodo,
-} from "../todoContext";
+} from "../context/todoContext";
 
 @customElement("litpwaelementprefixplaceholder-todo-list")
 export class TodoList extends LitElement {

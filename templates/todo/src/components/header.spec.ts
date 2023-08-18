@@ -1,7 +1,7 @@
 import { expect, html } from "@open-wc/testing";
 import "./header";
 
-import { ICtxRoute, routeCtx } from "../routerController";
+import { ICtxRoute, routeCtx } from "../context/routerContext";
 import { ctxFixture } from "../../tests/helpers/ctxFixture";
 
 describe("litpwaelementprefixplaceholder-header", () => {

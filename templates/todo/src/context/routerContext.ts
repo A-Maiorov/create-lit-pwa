@@ -1,6 +1,6 @@
 import { ContextProvider, createContext } from "@lit-labs/context";
 import { ReactiveController, ReactiveElement } from "lit";
-import { IRoute, Router } from "./router";
+import { IRoute, Router } from "../utils/router";
 
 export const goTo = (path: string | URL) => {
   const state = {};

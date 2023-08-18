@@ -1,6 +1,6 @@
 import { consume } from "@lit-labs/context";
 import { LitElement, html } from "lit";
-import { ICtxRoute, routeCtx } from "../routerController";
+import { ICtxRoute, routeCtx } from "../context/routerContext";
 import { customElement, property, state } from "lit/decorators.js";
 
 @customElement("litpwaelementprefixplaceholder-app-header")
