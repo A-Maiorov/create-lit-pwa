@@ -1,0 +1,3 @@
+{
+  "cucumberautocomplete.steps": ["tests/steps/**/*.ts"]
+}

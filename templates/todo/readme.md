@@ -97,21 +97,39 @@ npm run build
 npm test
 ```
 
-### Debug tests: 
+### Debug component/unit tests: 
 ```shell
 npm run test:debug
 ```
 
+### Run acceptance tests:
+```shell
+npm run accTest
+```
+
 ## Testing
 
-Lit PWA uses `@web/test-runner` for testing. You can read more about it here:
+### Component(unit) tests
+
+Lit PWA uses `@web/test-runner` for component or unit testing. You can read more about it here:
 
 https://open-wc.org/blog/testing-workflow-for-web-components/
 https://modern-web.dev/guides/test-runner/getting-started
 https://modern-web.dev/guides/test-runner/watch-and-debug/
 
 
+### Acceptance tests
 
+Acceptance testing is implemented in BDD style using CucumberJs and Playwright. You can find code fo these tests in following directories:
+- `/tests/features` - contains Gherkin feature files
+- `/tests/steps` - contains steps definitions
+- `/tests/pageObjectModels` - contains PageObjects
 
+In order to run these tests you need active web server therefore it is recommended to use `accTest` npm script that starts/stops development web server automatically. 
 
-
+To learn more see these articles: 
+https://cucumber.io/docs/gherkin/reference/
+https://cucumber.io/docs/guides/
+https://playwright.dev/docs/pom/
+https://github.com/cucumber/cucumber-js#documentation
+https://github.com/cucumber/cucumber-js/blob/main/docs/support_files/world.md

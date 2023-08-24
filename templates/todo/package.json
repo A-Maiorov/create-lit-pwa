@@ -9,7 +9,8 @@
     "build": "wireit",
     "serve": "wireit",
     "test": "wtr",
-    "test:debug": "npm run test -- --watch"
+    "test:debug": "npm run test -- --watch",
+    "accTest": "wireit"
   },
   "keywords": [
     "es6",
@@ -45,9 +46,11 @@
     "urlpattern-polyfill" : "^9.0.0"
   },
   "devDependencies": {
+    "@cucumber/cucumber": "9.4.0",
     "@web/test-runner": "^0.17.0",
     "@web/test-runner-playwright": "^0.10.1",
-    "@playwright/test": "1.37.0",
+    "playwright": "1.37.1",
+    "@playwright/test": "1.37.1",
     "@web/dev-server-esbuild": "^0.4.1",
     "@open-wc/testing" : "3.2.0",
     "@types/mocha":"10.0.1",
@@ -57,10 +60,17 @@
     "esbuild": "^0.19.2",
     "eslint": "^8.47.0",
     "eslint-plugin-lit": "^1.9.1",
+    "esbuild-register": "3.4.2",
     "typescript": "^5.1.6",
     "wireit": "0.10.0"
   },
   "wireit": {
+    "accTest": {
+      "command" : "npx cucumber-js",
+      "dependencies": [
+        "startTest"
+      ]
+    },
     "buildDevSw": {
       "command": "node build/buildSw.js -dev",
       "clean": true,
@@ -96,6 +106,13 @@
       "output": ["public/scripts/**/*.js"]
     },
     "start": {
+      "command": "node build/buildApp.js -dev -serve -open",
+      "clean": true,
+      "files": ["src/**/*.ts", "!src/service-worker/**/*"],
+      "dependencies": [ "buildDevSw" ],
+      "service": true
+    },
+    "startTest": {
       "command": "node build/buildApp.js -dev -serve",
       "clean": true,
       "files": ["src/**/*.ts", "!src/service-worker/**/*"],
@@ -103,7 +120,7 @@
       "service": true
     },
     "serve": {
-      "command": "node build/buildApp.js -serve",
+      "command": "node build/buildApp.js -serve -open",
       "clean": true,
       "files": ["src/**/*.ts", "!src/service-worker/**/*"],
       "dependencies": [ "buildProdSw" ],

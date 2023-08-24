@@ -13,6 +13,6 @@
     "noEmit": true
   },
   "exclude": ["node_modules", "service-worker", "public"],
-  "include": ["./src/**/*", "tests"],
+  "include": ["./src/**/*", "tests/**/*"],
   "types": ["lit"]
 }

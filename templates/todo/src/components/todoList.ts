@@ -93,7 +93,7 @@ export class TodoList extends LitElement {
         <i class="icon">delete</i>
       </div>
       <div class="text">${index + 1}. ${todo.text}</div>
-      <i class="icon"> done</i>
+      <i class="icon">done</i>
     </li>`;
   }
   #renderActiveItem(todo: ITodo, index: number) {

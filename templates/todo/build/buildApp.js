@@ -11,6 +11,7 @@ var args = proc.argv.slice(2);
 const dev = args.includes("-dev");
 const prod = !dev;
 const serve = args.includes("-serve");
+const open = args.includes("-open");
 
 const regHotReload = () => {
   new EventSource("/esbuild").addEventListener("change", () => {
@@ -45,10 +46,12 @@ if (dev) {
 }
 let serveResult = await buildCtx.serve(serveOptions);
 
-const start =
-  proc.platform == "darwin"
-    ? "open"
-    : proc.platform == "win32"
-    ? "start"
-    : "xdg-open";
-exec(start + " " + `http://${serveResult.host}:${serveResult.port}`);
+if (open) {
+  const start =
+    proc.platform == "darwin"
+      ? "open"
+      : proc.platform == "win32"
+      ? "start"
+      : "xdg-open";
+  exec(start + " " + `http://${serveResult.host}:${serveResult.port}`);
+}
