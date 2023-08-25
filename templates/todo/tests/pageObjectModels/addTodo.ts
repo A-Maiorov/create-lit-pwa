@@ -8,6 +8,6 @@ export class AddTodo extends PageObjectBase {
   url = "/add-todo";
 
   async goto() {
-    return this.page.goto(this.url);
+    return this.page.goto(this.baseUrl + this.url, { waitUntil: "load" });
   }
 }

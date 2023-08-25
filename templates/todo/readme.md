@@ -127,6 +127,8 @@ Acceptance testing is implemented in BDD style using CucumberJs and Playwright. 
 
 In order to run these tests you need active web server therefore it is recommended to use `accTest` npm script that starts/stops development web server automatically. 
 
+To enable headed browser set `"BROWSER_HEADLESS" : "false"` in accTest wireit command definition in `package.json`
+
 To learn more see these articles: 
 https://cucumber.io/docs/gherkin/reference/
 https://cucumber.io/docs/guides/

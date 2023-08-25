@@ -10,12 +10,13 @@ expect.extend({
     };
   },
 });
+export const baseUrl = "http://localhost:8000";
 
 export abstract class PageObjectBase {
   context: BrowserContext;
   page: Page;
 
-  baseUrl = "http://localhost:8000";
+  baseUrl = baseUrl;
 
   constructor(context: BrowserContext, page: Page) {
     this.context = context;

@@ -12,7 +12,8 @@ expect.extend({
   },
 });
 
+const envBrowserHeadless = process.env.BROWSER_HEADLESS;
 export const browserProm = chromium.launch({
-  headless: true,
+  headless: envBrowserHeadless !== "false",
 });
 export const contextProm = browserProm.then((b) => b.newContext());

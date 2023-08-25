@@ -1,9 +1,9 @@
 const config = {
   paths: ["tests/features/**/*.feature"],
-  //parallel: 2,
+  //parallel: 8,
   require: ["tests/steps/**/*.ts"],
   requireModule: ["esbuild-register"],
-  format: ["summary", "progress-bar"],
+  format: ["summary", "progress"],
   formatOptions: { snippetInterface: "async-await" },
 
   //publishQuiet: true,

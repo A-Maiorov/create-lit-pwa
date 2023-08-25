@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "wireit",
+    "start": "npm run startDev -- -- -open",
+    "startDev": "wireit",
     "build": "wireit",
     "serve": "wireit",
     "test": "wtr",
@@ -68,8 +69,11 @@
     "accTest": {
       "command" : "npx cucumber-js",
       "dependencies": [
-        "startTest"
-      ]
+        "startDev"
+      ],
+      "env": {
+        "BROWSER_HEADLESS": "true"
+      }
     },
     "buildDevSw": {
       "command": "node build/buildSw.js -dev",
@@ -105,14 +109,7 @@
       "files": ["src/**/*.ts", "!src/service-worker/**/*"],
       "output": ["public/scripts/**/*.js"]
     },
-    "start": {
-      "command": "node build/buildApp.js -dev -serve -open",
-      "clean": true,
-      "files": ["src/**/*.ts", "!src/service-worker/**/*"],
-      "dependencies": [ "buildDevSw" ],
-      "service": true
-    },
-    "startTest": {
+    "startDev": {
       "command": "node build/buildApp.js -dev -serve",
       "clean": true,
       "files": ["src/**/*.ts", "!src/service-worker/**/*"],

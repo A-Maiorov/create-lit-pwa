@@ -5,6 +5,7 @@ import { TodoList } from "../../pageObjectModels/todoList";
 import { AddTodo } from "../../pageObjectModels/addTodo";
 import { ITodo } from "../../../src/context/todoContext";
 import { EditTodo } from "../../pageObjectModels/editTodo";
+import { baseUrl } from "../../pageObjectModels/pageObjectBase";
 
 export class TodoWorld extends World {
   browser: Browser;
@@ -36,16 +37,15 @@ export class TodoWorld extends World {
     this.page.addInitScript(() => {
       navigator.serviceWorker.register("/service-worker.js");
     });
+    await this.page.goto(baseUrl, { waitUntil: "load" });
 
     this.pages = {
       TodoList: new TodoList(this.context, this.page),
       AddTodo: new AddTodo(this.context, this.page),
       EditTodo: new EditTodo(this.context, this.page),
     };
-
-    await this.page.goto(this.pages.AddTodo.baseUrl);
   }
   async dispose() {
-    this.page?.close();
+    await this.page?.close();
   }
 }
