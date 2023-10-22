@@ -33,30 +33,33 @@
       "ecmaVersion": "latest",
       "sourceType": "module"
     },
-    "plugins": ["@typescript-eslint", "lit"],
+    "plugins": [
+      "@typescript-eslint",
+      "lit"
+    ],
     "rules": {
       "lit/no-legacy-template-syntax": "error",
       "lit/no-template-arrow": "warn"
     }
   },
   "dependencies": {
-    "lit": "^2.8.0",
-    "urlpattern-polyfill" : "^9.0.0"
+    "lit": "^3.0.0",
+    "urlpattern-polyfill": "^9.0.0"
   },
   "devDependencies": {
-    "@web/test-runner": "^0.17.0",
-    "@web/test-runner-playwright": "^0.10.1",
-    "@web/dev-server-esbuild": "^0.4.1",
-    "@open-wc/testing" : "3.2.0",
-    "@types/mocha":"10.0.1",
-    "@types/chai": "4.3.5",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
-    "@typescript-eslint/parser": "^6.4.0",
-    "esbuild": "^0.19.2",
-    "eslint": "^8.47.0",
+    "@web/test-runner": "^0.17.2",
+    "@web/test-runner-playwright": "^0.10.2",
+    "@web/dev-server-esbuild": "^0.4.3",
+    "@open-wc/testing": "3.2.0",
+    "@types/mocha": "10.0.3",
+    "@types/chai": "4.3.9",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
+    "@typescript-eslint/parser": "^6.8.0",
+    "esbuild": "^0.19.5",
+    "eslint": "^8.52.0",
     "eslint-plugin-lit": "^1.9.1",
-    "typescript": "^5.1.6",
-    "wireit": "0.10.0"
+    "typescript": "^5.2.2",
+    "wireit": "0.14.1"
   },
   "wireit": {
     "buildDevSw": {
@@ -66,7 +69,9 @@
         "public/scripts/service-worker.js",
         "public/scripts/service-worker.js.map"
       ],
-      "files": ["src/service-worker/**/*.ts"],
+      "files": [
+        "src/service-worker/**/*.ts"
+      ],
       "dependencies": [
         "buildDev"
       ]
@@ -78,33 +83,58 @@
         "public/scripts/service-worker.js",
         "public/scripts/service-worker.js.map"
       ],
-      "files": ["build/buildSw.js","src/service-worker/**/*.ts"],
-      "dependencies": ["build"]
+      "files": [
+        "build/buildSw.js",
+        "src/service-worker/**/*.ts"
+      ],
+      "dependencies": [
+        "build"
+      ]
     },
     "buildDev": {
       "command": "node build/buildApp.js -dev",
       "clean": true,
-      "files": ["src/**/*.ts", "!src/service-worker/**/*"],
-      "output": ["public/scripts/**/*.js"]
+      "files": [
+        "src/**/*.ts",
+        "!src/service-worker/**/*"
+      ],
+      "output": [
+        "public/scripts/**/*.js"
+      ]
     },
     "build": {
       "command": "node build/buildApp.js",
       "clean": true,
-      "files": ["src/**/*.ts", "!src/service-worker/**/*"],
-      "output": ["public/scripts/**/*.js"]
+      "files": [
+        "src/**/*.ts",
+        "!src/service-worker/**/*"
+      ],
+      "output": [
+        "public/scripts/**/*.js"
+      ]
     },
     "start": {
       "command": "node build/buildApp.js -dev -serve",
       "clean": true,
-      "files": ["src/**/*.ts", "!src/service-worker/**/*"],
-      "dependencies": [ "buildDevSw" ],
+      "files": [
+        "src/**/*.ts",
+        "!src/service-worker/**/*"
+      ],
+      "dependencies": [
+        "buildDevSw"
+      ],
       "service": true
     },
     "serve": {
       "command": "node build/buildApp.js -serve",
       "clean": true,
-      "files": ["src/**/*.ts", "!src/service-worker/**/*"],
-      "dependencies": [ "buildProdSw" ],
+      "files": [
+        "src/**/*.ts",
+        "!src/service-worker/**/*"
+      ],
+      "dependencies": [
+        "buildProdSw"
+      ],
       "service": true
     }
   }
