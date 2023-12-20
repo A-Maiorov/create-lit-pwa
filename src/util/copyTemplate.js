@@ -55,7 +55,9 @@ export async function copyTemplate(answers) {
  * @returns
  */
 async function patchAndCopy(file, patchSettings, tplPath) {
-  const newFilePath = file.replace(tplPath, appPath);
+  let newFilePath = file.replace(tplPath, appPath);
+  if (newFilePath.endsWith("_gitignore"))
+    newFilePath = newFilePath.replace("_gitignore", ".gitignore");
   const parts = newFilePath.split(sep);
   const fileName = parts.pop();
   const directory = parts.join(sep);

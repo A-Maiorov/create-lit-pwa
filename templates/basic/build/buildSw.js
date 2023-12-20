@@ -9,8 +9,6 @@ import * as path from "path";
 // eslint-disable-next-line no-undef
 const proc = process;
 
-var xx = proc.cwd();
-
 var args = proc.argv.slice(2);
 
 const dev = args.includes("-dev");
